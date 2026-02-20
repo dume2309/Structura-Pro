@@ -520,8 +520,6 @@
         <p class="subtitle">Logiciel de calcul — Flexion · Sections · Optimisation découpe — V2.7</p>
       </div>
       <div class="badges">
-        <span id="devBadge" class="badge dev" style="display:none">DEV</span>
-        <span class="badge">Offline · 1 fichier</span>
       </div>
     </div>
 
@@ -817,7 +815,7 @@
             </div>
 
             <div class="hint">
-              Optimisation découpe (algorithme Duprat) : minimise les chutes par exploration arborescente.
+              Optimisation découpe : minimise les chutes par exploration arborescente.
               Longueur barre et chute acceptable réglables. Détail par barre avec rendement.
             </div>
           </div>
@@ -1648,7 +1646,7 @@
     }
 
     // ===================================================================
-    // Algorithme d'optimisation de découpe — J. Duprat (2002)
+    // Algorithme d'optimisation de découpe
     // Exploration arborescente branch-and-bound : minimise les chutes.
     // Entrée : tableau de longueurs individuelles (mm), longueur barre (mm),
     //          chute acceptable (mm).
@@ -1757,7 +1755,7 @@
     }
 
     // Calcule le récap découpe barres groupé par (famille+taille+matériau)
-    // Utilise l'algorithme d'optimisation Duprat pour chaque groupe.
+    // Utilise l'algorithme d'optimisation pour chaque groupe.
     function calcDecoupe() {
       const barL_mm = clampNum(elBarLength.value, 1, 100000) || 6000;
       const chute_mm = clampNum(elChuteAcceptable.value, 0, barL_mm / 2) || 50;
@@ -1875,7 +1873,7 @@
         cell(Number(it.kgm),"num2"), cell(Number(it.kgtotal),"num2"), cell(Number(it.paint),"num2")
       )).join("\n");
 
-      // Feuille 2 — Découpe détaillée (algorithme Duprat)
+      // Feuille 2 — Découpe détaillée
       let decoupeRows = "";
       decoupe.forEach(g => {
         // En-tête du groupe
@@ -2211,7 +2209,7 @@
     }
 
     function init() {
-      if (DEV_MODE) devBadge.style.display = "inline-flex";
+      if (DEV_MODE && devBadge) devBadge.style.display = "inline-flex";
       if (!DEV_MODE) blockApp();
 
       restoreFromStorage();
