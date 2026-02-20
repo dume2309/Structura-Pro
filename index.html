@@ -811,12 +811,12 @@
 
             <div class="cart-actions">
               <button id="btnClearCart" class="btn-danger">Vider le panier</button>
-              <button id="btnExport" class="btn-primary">Exporter Excel</button>
+              <!-- Export Excel désactivé sur version mobile -->
+              <button id="btnExport" class="btn-primary" style="display:none">Exporter Excel</button>
               <button onclick="window.print()" class="btn-secondary">🖨 Imprimer</button>
             </div>
 
             <div class="hint">
-              Export Excel (SpreadsheetML) : s'ouvre directement dans Excel avec mise en forme et chantier.
               Optimisation découpe (algorithme Duprat) : minimise les chutes par exploration arborescente.
               Longueur barre et chute acceptable réglables. Détail par barre avec rendement.
             </div>
