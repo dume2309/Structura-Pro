@@ -1,0 +1,61 @@
+================================================================
+  STRUCTURA PRO — Application Mobile (PWA)
+  Version 2.7
+================================================================
+
+CONTENU DU DOSSIER
+------------------
+  index.html          -> Page principale de l'application
+  manifest.json       -> Descripteur PWA (nom, icones, couleurs)
+  service-worker.js   -> Mise en cache pour fonctionnement hors ligne
+  logo.png            -> Logo dans le header
+  icons/              -> Icones de l'application (192x192 et 512x512)
+  images/             -> Images des poutres et sections
+
+
+ACCES A L'APPLICATION (GitHub Pages)
+-------------------------------------
+URL : https://dume2309.github.io/Structura-Pro/
+
+Ouvrez cette URL depuis le navigateur de votre telephone.
+
+
+INSTALLATION SUR TELEPHONE ANDROID (Chrome)
+--------------------------------------------
+1. Ouvrez l'URL ci-dessus dans Google Chrome
+2. Chrome affiche automatiquement une banniere :
+   "Ajouter Structura PRO a l'ecran d'accueil"
+   -> Appuyez sur "Installer"
+3. Si la banniere n'apparait pas :
+   -> Menu (3 points en haut a droite)
+   -> "Installer l'application" ou "Ajouter a l'ecran d'accueil"
+4. L'icone STRUCTURA PRO apparait sur l'ecran d'accueil
+5. L'application s'ouvre en plein ecran, comme une app native
+
+
+INSTALLATION SUR TELEPHONE iOS (iPhone/iPad) — Safari
+------------------------------------------------------
+1. Ouvrez l'URL dans SAFARI (obligatoire — ne fonctionne pas avec Chrome iOS)
+2. Appuyez sur le bouton PARTAGER (carre avec une fleche vers le haut)
+3. Faites defiler et choisissez "Sur l'ecran d'accueil"
+4. Confirmez le nom "Structura PRO" et appuyez "Ajouter"
+5. L'icone apparait sur l'ecran d'accueil
+
+
+FONCTIONNEMENT HORS LIGNE
+--------------------------
+Une fois l'application ouverte une premiere fois avec une connexion
+internet, tous les fichiers sont mis en cache automatiquement.
+L'application fonctionne ensuite SANS connexion internet.
+
+
+MISE A JOUR
+------------
+Quand une nouvelle version est deployee :
+1. Modifiez la valeur CACHE_VERSION dans service-worker.js
+   (ex: 'structura-pro-v2.7-r1' -> 'structura-pro-v2.7-r2')
+2. Poussez sur GitHub (git add, commit, push)
+3. Les utilisateurs recevront la mise a jour automatiquement
+   a la prochaine ouverture de l'application
+
+================================================================

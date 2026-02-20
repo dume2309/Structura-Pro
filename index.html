@@ -1,0 +1,2300 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STRUCTURA PRO — HTML V2.7 (Flexion)</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d3222a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Structura PRO">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --card2: #12141a;
+      --text: #e9eef5;
+      --muted: #aeb7c4;
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 8px 24px rgba(0,0,0,0.35);
+
+      --red: #d3222a;
+      --red2: #b71c1c;
+      --orange: #ff8a1f;
+      --orange2: #e17000;
+      --ok: #35c759;
+      --warn: #ffcc00;
+      --danger: #ff3b30;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 10% 0%, rgba(211,34,42,0.18), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 0%, rgba(255,138,31,0.12), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 16px 28px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(211,34,42,0.16), rgba(255,138,31,0.08));
+      box-shadow: var(--shadow);
+    }
+
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.18);
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .badge.dev {
+      border-color: rgba(255,138,31,0.35);
+      background: rgba(255,138,31,0.12);
+      color: #ffd7b0;
+    }
+
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(23,26,33,0.92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card h2 {
+      margin: 0;
+      padding: 14px 16px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(211,34,42,0.18), transparent 55%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card .content {
+      padding: 14px 16px 16px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      color: var(--text);
+      outline: none;
+    }
+    select:focus, input:focus {
+      border-color: rgba(255,138,31,0.55);
+      box-shadow: 0 0 0 3px rgba(255,138,31,0.14);
+    }
+    select option, select optgroup {
+      background: #1e2230;
+      color: #111;
+      background-color: #f4f6fa;
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .three-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 980px) {
+      .three-cols { grid-template-columns: 1fr; }
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 10px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(0,0,0,0.18);
+    }
+    button:hover { filter: brightness(1.05); }
+    button:active { transform: translateY(1px); }
+
+    .btn-primary {
+      border-color: rgba(255,138,31,0.55);
+      background: linear-gradient(180deg, rgba(255,138,31,0.95), rgba(225,112,0,0.95));
+      color: #1a0e00;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+    .btn-danger {
+      border-color: rgba(255,59,48,0.55);
+      background: rgba(255,59,48,0.12);
+      color: #ffd0ce;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.18);
+    }
+    th, td {
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 12.5px;
+    }
+    th {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      background: rgba(211,34,42,0.10);
+    }
+    tr:last-child td { border-bottom: none; }
+
+    .table-compact th, .table-compact td { padding: 8px 10px; }
+
+    .muted { color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (max-width: 980px) {
+      .kpi { grid-template-columns: 1fr; }
+    }
+    .kpi .box {
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.16);
+    }
+    .kpi .box .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .kpi .box .value {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .kpi2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 980px) {
+      .kpi2 { grid-template-columns: 1fr; }
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.15);
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .status-ok { color: #c9f7d6; border-color: rgba(53,199,89,0.35); background: rgba(53,199,89,0.10); }
+    .status-ko { color: #ffd0ce; border-color: rgba(255,59,48,0.40); background: rgba(255,59,48,0.10); }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .cart-actions button {
+      padding: 9px 10px;
+    }
+
+    .icon-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.10);
+      border-radius: 10px;
+      padding: 6px 8px;
+      font-weight: 900;
+      cursor: pointer;
+      line-height: 1;
+      color: #ffd0ce;
+    }
+    .icon-btn:hover { filter: brightness(1.07); }
+
+    .totals {
+      margin-top: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .totals .pill {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.15);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.25;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.72);
+      padding: 16px;
+      z-index: 9999;
+    }
+    .modal {
+      width: 520px;
+      max-width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(23,26,33,0.98);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .modal header {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(90deg, rgba(211,34,42,0.18), transparent 55%);
+      font-weight: 900;
+    }
+    .modal .body {
+      padding: 14px 16px 16px;
+    }
+    .modal .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    .error {
+      color: #ffd0ce;
+      margin-top: 8px;
+      display: none;
+    }
+
+
+    /* Logo */
+    .header-logo {
+      height: 54px;
+      width: auto;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* Chantier field */
+    .chantier-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: rgba(255,138,31,0.07);
+      border: 1px solid rgba(255,138,31,0.18);
+      border-radius: 12px;
+      margin-top: 12px;
+    }
+    .chantier-bar label {
+      white-space: nowrap;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      min-width: 120px;
+    }
+    .chantier-bar input {
+      width: auto;
+      flex: 1;
+      padding: 7px 12px;
+      border-radius: 8px;
+    }
+
+    /* Tableau découpe barres */
+    .decoupe-table { width:100%; border-collapse:collapse; margin-top:10px; font-size:12px; }
+    .decoupe-table th {
+      background: rgba(255,138,31,0.14);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      padding: 5px 8px;
+      text-align: left;
+    }
+    .decoupe-table td { padding: 4px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .bar-length-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+    .bar-length-row label { font-size:12px; color:var(--muted); white-space:nowrap; }
+    .bar-length-row input { width:90px; padding:6px 10px; }
+
+    /* @media print */
+    @media print {
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body {
+        background: white !important;
+        color: #111 !important;
+        font-size: 11pt;
+      }
+      .app { max-width: 100%; padding: 0; }
+      .header {
+        background: #d3222a !important;
+        color: white !important;
+        border-radius: 0 !important;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        page-break-inside: avoid;
+      }
+      .header .title { color: white !important; font-size: 18pt; }
+      .header .subtitle, .header .badges { display: none; }
+      .chantier-bar {
+        background: #fff8f0 !important;
+        border: 1px solid #e0c070 !important;
+        border-radius: 0 !important;
+        margin: 0 0 8px 0;
+        padding: 6px 14px;
+      }
+      .chantier-bar input { border: none; background: transparent; font-weight:700; font-size:13pt; }
+      .card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        border-radius: 0 !important;
+        background: white !important;
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+      }
+      h2 { color: #d3222a !important; border-bottom: 2px solid #d3222a; padding-bottom: 4px; }
+      .kpi { flex-wrap: wrap; }
+      .box { background: #f8f8f8 !important; border: 1px solid #ddd !important; }
+      .label, .muted { color: #555 !important; }
+      .value { color: #111 !important; }
+      select, input { color: #111 !important; background: white !important; border: 1px solid #ccc !important; }
+      .status-pill { border: 1px solid #aaa !important; }
+      .status-ok { background: #d4edda !important; color: #155724 !important; }
+      .status-ko { background: #f8d7da !important; color: #721c24 !important; }
+      /* Cacher les boutons et éléments non imprimables */
+      .buttons, .cart-actions, .btn-primary, .btn-secondary, .btn-danger,
+      #devBadge, .modal-backdrop, .hint { display: none !important; }
+      table, .decoupe-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+      th { background: #d3222a !important; color: white !important; }
+      td, th { border: 1px solid #bbb !important; padding: 3px 6px !important; }
+      .totals .pill { background: #f0f0f0 !important; color: #111 !important; border: 1px solid #bbb !important; }
+      .grid { display: block; }
+      .split { display: block; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="header">
+      <img src="logo.png" alt="STRUCTURA PRO" class="header-logo"
+           style="object-fit:cover;object-position:50% 0%;width:108px;"
+           onerror="this.style.display='none'" />
+      <div class="title-wrap" style="flex:1;">
+        <h1 class="title">STRUCTURA PRO</h1>
+        <p class="subtitle">Logiciel de calcul — Flexion · Sections · Optimisation découpe — V2.7</p>
+      </div>
+      <div class="badges">
+        <span id="devBadge" class="badge dev" style="display:none">DEV</span>
+        <span class="badge">Offline · 1 fichier</span>
+      </div>
+    </div>
+
+    <div class="chantier-bar">
+      <label for="chantierName">🏗 Nom du chantier</label>
+      <input id="chantierName" type="text" placeholder="(optionnel — apparaît dans l'export et l'impression)" />
+      <button onclick="window.print()" class="btn-secondary" style="white-space:nowrap;padding:7px 16px;">🖨 Imprimer</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Sélection du Profilé</h2>
+        <div class="content">
+          <div class="row">
+            <div>
+              <label for="family">Famille profil</label>
+              <select id="family"></select>
+            </div>
+
+            <div id="sizeDiv">
+              <label for="size">Taille</label>
+              <select id="size"></select>
+            </div>
+            <div id="customDimsDiv" style="display:none;"></div>
+
+            <div>
+              <label for="material">Matériau</label>
+              <select id="material"></select>
+            </div>
+
+            <div class="two-cols">
+              <div>
+                <label for="length">Longueur (mm)</label>
+                <input id="length" type="number" min="1" step="1" />
+              </div>
+              <div>
+                <label for="qty">Quantité</label>
+                <input id="qty" type="number" min="1" step="1" />
+              </div>
+            </div>
+
+            <div style="text-align:center;margin:6px 0;">
+              <img id="sectionImg" src="" alt="Section transversale" style="max-height:160px;display:none;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,0.05);padding:2px;" />
+            </div>
+
+            <div class="buttons">
+              <button id="btnAdd" class="btn-primary">Ajouter</button>
+              <button id="btnReset" class="btn-secondary">Réinitialiser</button>
+            </div>
+
+            <div class="hint">
+              Panier + dernière sélection sauvegardés en local (localStorage). Export CSV compatible Excel FR.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <h2>Résultats</h2>
+          <div class="content">
+
+            <h3 class="muted" style="margin:0 0 8px;font-size:12px;font-weight:900;">Bloc 1 — Propriétés de la section</h3>
+            <table class="table-compact" aria-label="Propriétés de section">
+              <thead>
+                <tr><th>Propriété</th><th>Valeur</th></tr>
+              </thead>
+              <tbody id="propsBody"></tbody>
+            </table>
+
+            <h3 class="muted" style="margin:14px 0 8px;font-size:12px;font-weight:900;">Bloc 2 — Calculs dérivés</h3>
+            <div class="kpi">
+              <div class="box">
+                <div class="label">Masse linéique</div>
+                <div class="value"><span id="kpiKgM">—</span> <span class="muted">kg/m</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Poids total</div>
+                <div class="value"><span id="kpiKgTotal">—</span> <span class="muted">kg</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Surface peinture totale</div>
+                <div class="value"><span id="kpiPaintTotal">—</span> <span class="muted">m²</span></div>
+              </div>
+            </div>
+
+            <h3 class="muted" style="margin:14px 0 8px;font-size:12px;font-weight:900;">Bloc 2bis — Flexion (18 cas)</h3>
+
+            <div class="two-cols">
+              <div>
+                <label for="flexCase">Cas de calcul</label>
+                <select id="flexCase">
+                  <optgroup label="— Simplement appuyée (9 cas) —">
+                    <option value="1">01 · SS — Charge uniforme q</option>
+                    <option value="2">02 · SS — Charge ponctuelle P au centre</option>
+                    <option value="3">03 · SS — Charge ponctuelle P à distance a</option>
+                    <option value="4">04 · SS — Deux charges P symétriques (à ±a)</option>
+                    <option value="5">05 · SS — Triangulaire (0→q gauche→droite)</option>
+                    <option value="6">06 · SS — Triangulaire (q→0 gauche→droite)</option>
+                    <option value="7">07 · SS — Trapézoïdale (q₁ gauche → q₂ droite)</option>
+                    <option value="8">08 · SS — Moment M₀ en appui A (gauche)</option>
+                    <option value="9">09 · SS — Moment M₀ en appui B (droite)</option>
+                  </optgroup>
+                  <optgroup label="— Console encastrée-libre (4 cas) —">
+                    <option value="10">10 · Console — Charge uniforme q</option>
+                    <option value="11">11 · Console — Charge ponctuelle P en bout libre</option>
+                    <option value="12">12 · Console — Charge ponctuelle P à distance a</option>
+                    <option value="13">13 · Console — Triangulaire (0 encastré → q en bout)</option>
+                  </optgroup>
+                  <optgroup label="— Bi-encastrée (2 cas) —">
+                    <option value="14">14 · Bi-encastrée — Charge uniforme q</option>
+                    <option value="15">15 · Bi-encastrée — Charge ponctuelle P au centre</option>
+                  </optgroup>
+                  <optgroup label="— Encastrée-appuyée (2 cas) —">
+                    <option value="16">16 · Encastrée-appuyée — Charge uniforme q</option>
+                    <option value="17">17 · Encastrée-appuyée — Charge P à L/2</option>
+                  </optgroup>
+                  <optgroup label="— Bi-travée continue (1 cas) —">
+                    <option value="18">18 · Bi-travée SS égales — Charge uniforme q</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div>
+                <label for="flexAxis">Axe de flexion</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <select id="flexAxis">
+                    <option value="y" selected>Gz — Iy, Wy (axe fort)</option>
+                    <option value="z">Gy — Iz, Wz (axe faible)</option>
+                  </select>
+                  <img src="images/axes.JPG" alt="Convention axes" title="Convention d'axes z/y — survoler pour agrandir" style="height:56px;border-radius:4px;border:1px solid var(--border);cursor:zoom-in;" onmouseenter="var d=document.getElementById('axesOvl');if(!d){d=document.createElement('div');d.id='axesOvl';d.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;pointer-events:none;';var i=document.createElement('img');i.src=this.src;i.style.cssText='max-height:80vh;max-width:80vw;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.7);';d.appendChild(i);document.body.appendChild(d);}else{d.style.display='flex';}" onmouseleave="var d=document.getElementById('axesOvl');if(d)d.style.display='none';" />
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label for="flexCalcMode">Choix de calcul</label>
+              <select id="flexCalcMode" style="width:100%;">
+                <option value="1" selected>Calculer contrainte et flèche (charge donnée)</option>
+                <option value="2">Calculer la force en fonction de la flèche</option>
+                <option value="3">Calculer la force et la flèche à la limite élastique</option>
+              </select>
+            </div>
+
+            <div class="two-cols" style="margin-top:10px;">
+              <div>
+                <label for="flexSpan">Portée L (mm)</label>
+                <input id="flexSpan" type="number" min="1" step="1" />
+              </div>
+              <div id="flexLoadDiv">
+                <label id="flexLoadLabel" for="flexLoadValue">Valeur de charge</label>
+                <div style="display:flex;gap:4px;">
+                  <input id="flexLoadValue" type="number" min="0" step="0.01" style="flex:1;" />
+                  <select id="flexLoadUnit" style="width:auto;min-width:62px;"></select>
+                </div>
+              </div>
+              <div id="flexDeflInputDiv" style="display:none;">
+                <label for="flexDeflInput">Flèche imposée (mm)</label>
+                <input id="flexDeflInput" type="number" min="0" step="0.01" />
+              </div>
+            </div>
+
+            <div class="two-cols" style="margin-top:8px;">
+              <div id="flexParamADiv" style="display:none;">
+                <label for="flexParamA" id="flexParamALabel">Distance a (mm)</label>
+                <input id="flexParamA" type="number" min="0" step="1" />
+              </div>
+              <div id="flexQ2Div" style="display:none;">
+                <label for="flexQ2">q₂ (kN/m)</label>
+                <input id="flexQ2" type="number" min="0" step="0.01" />
+              </div>
+            </div>
+
+            <div class="two-cols" style="margin-top:8px;">
+              <div>
+                <label for="flexUsecase">Cas d'usage (flèche)</label>
+                <select id="flexUsecase"></select>
+                <div class="muted" style="font-size:10px;margin-top:2px;" id="flexUsecaseHelp"></div>
+              </div>
+              <div>
+                <label for="flexDeflRatio">Ratio limite</label>
+                <div style="display:flex;gap:6px;align-items:start;">
+                  <select id="flexDeflRatio" style="flex:1;"></select>
+                  <div style="min-width:90px;">
+                    <input id="flexDeflFree" type="number" min="50" max="2000" step="1" placeholder="libre" title="Ratio libre (prioritaire si rempli)" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align:center;margin-bottom:4px;">
+              <img id="flexCaseImg" src="" alt="Cas de charge" style="max-height:280px;max-width:100%;display:none;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.05);padding:4px;" />
+            </div>
+            <div class="kpi2">
+              <div class="box" id="flexForceResultDiv" style="display:none;">
+                <div class="label" id="flexForceResultLabel">Charge calculée</div>
+                <div class="value"><span id="flexForceResult">—</span> <span class="muted" id="flexForceResultUnit">kN</span></div>
+              </div>
+              <div class="box">
+                <div class="label" id="flexMmaxLabel">Mmax</div>
+                <div class="value"><span id="flexMmax">—</span> <span class="muted">kN·m</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Vmax</div>
+                <div class="value"><span id="flexVmax">—</span> <span class="muted">kN</span></div>
+              </div>
+              <div class="box">
+                <div class="label">σmax (M/W)</div>
+                <div class="value"><span id="flexSigma">—</span> <span class="muted">MPa</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Taux (σ / Re)</div>
+                <div class="value"><span id="flexUtil">—</span> <span class="muted">%</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Coeff. sécurité (Re/σ)</div>
+                <div class="value"><span id="flexCoefSec">—</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Conformité résistance</div>
+                <div class="value"><span id="flexResOK" class="status-pill">—</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Flèche max</div>
+                <div class="value"><span id="flexDefl">—</span> <span class="muted">mm</span></div>
+              </div>
+              <div class="box">
+                <div class="label">Critère flèche</div>
+                <div class="value"><span id="flexDeflOK" class="status-pill">—</span></div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>
+            Panier
+            <span class="badge" id="cartCount">0 ligne</span>
+          </h2>
+          <div class="content">
+            <table aria-label="Panier">
+              <thead>
+                <tr>
+                  <th>Famille</th>
+                  <th>Taille</th>
+                  <th>Matériau</th>
+                  <th>L (m)</th>
+                  <th>Qté</th>
+                  <th>kg/m</th>
+                  <th>kg total</th>
+                  <th>m² peinture</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="cartBody"></tbody>
+            </table>
+
+            <div class="totals">
+              <span class="pill">Total kg : <span id="totalKg" class="mono">0</span></span>
+              <span class="pill">Total m² peinture : <span id="totalPaint" class="mono">0</span></span>
+            </div>
+
+            <!-- Optimisation découpe -->
+            <h3 class="muted" style="margin:14px 0 6px;font-size:12px;font-weight:900;">Optimisation découpe barres</h3>
+            <div class="bar-length-row" style="display:flex;gap:14px;flex-wrap:wrap;align-items:end;">
+              <div>
+                <label for="barLength">Longueur barre (mm) :</label>
+                <input id="barLength" type="number" min="1" step="1" value="6000" style="width:100px;" />
+              </div>
+              <div>
+                <label for="chuteAcceptable">Chute acceptable (mm) :</label>
+                <input id="chuteAcceptable" type="number" min="0" step="1" value="50" style="width:80px;" />
+              </div>
+            </div>
+            <table class="decoupe-table" aria-label="Découpe barres">
+              <thead>
+                <tr>
+                  <th style="width:60px;">Barre</th>
+                  <th>Morceaux (mm)</th>
+                  <th style="width:90px;">Utilisé (mm)</th>
+                  <th style="width:80px;">Chute (mm)</th>
+                </tr>
+              </thead>
+              <tbody id="decoupeBody"><tr><td colspan="4" class="muted" style="text-align:center;padding:8px;">Panier vide</td></tr></tbody>
+            </table>
+
+            <div class="cart-actions">
+              <button id="btnClearCart" class="btn-danger">Vider le panier</button>
+              <button id="btnExport" class="btn-primary">Exporter Excel</button>
+              <button onclick="window.print()" class="btn-secondary">🖨 Imprimer</button>
+            </div>
+
+            <div class="hint">
+              Export Excel (SpreadsheetML) : s'ouvre directement dans Excel avec mise en forme et chantier.
+              Optimisation découpe (algorithme Duprat) : minimise les chutes par exploration arborescente.
+              Longueur barre et chute acceptable réglables. Détail par barre avec rendement.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header id="modalTitle">Accès protégé</header>
+      <div class="body">
+        <div class="muted" style="font-size:12px;line-height:1.25;">
+          Entrez une clé / PIN pour accéder à l'application.
+        </div>
+        <div style="margin-top:10px;">
+          <label for="pinInput">Clé / PIN</label>
+          <input id="pinInput" type="password" placeholder="••••" />
+          <div id="pinError" class="error">Clé incorrecte.</div>
+        </div>
+        <div class="actions">
+          <button id="pinValidate" class="btn-primary">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * STRUCTURA PRO — HTML V2.7 (offline, 1 fichier)
+     * Ajout : bloc flexion simple (pré-check)
+     ***********************/
+
+    // --- Sécurité (prépa V2) ---
+    // V1.x : fonctionnement normal en DEV_MODE = true
+    const DEV_MODE = true;
+
+    const PROFILE_DB = {"IPE": {"80": {"h": 80.0, "b": 46.0, "A": 7.64, "sp": 0.329, "Iy": 80.1, "Iz": 8.49, "Wy": 20.0, "Wz": 3.69}, "100": {"h": 100.0, "b": 55.0, "A": 10.3, "sp": 0.401, "Iy": 171.0, "Iz": 15.9, "Wy": 34.2, "Wz": 5.79}, "120": {"h": 120.0, "b": 64.0, "A": 13.2, "sp": 0.474, "Iy": 318.0, "Iz": 27.7, "Wy": 53.0, "Wz": 8.65}, "140": {"h": 140.0, "b": 73.0, "A": 16.4, "sp": 0.55, "Iy": 541.0, "Iz": 44.9, "Wy": 77.3, "Wz": 12.3}, "160": {"h": 160.0, "b": 82.0, "A": 20.1, "sp": 0.622, "Iy": 869.0, "Iz": 68.3, "Wy": 109.0, "Wz": 16.7}, "180": {"h": 180.0, "b": 91.0, "A": 23.9, "sp": 0.698, "Iy": 1317.0, "Iz": 101.0, "Wy": 146.0, "Wz": 22.2}, "200": {"h": 200.0, "b": 100.0, "A": 28.5, "sp": 0.768, "Iy": 1943.0, "Iz": 142.0, "Wy": 194.0, "Wz": 28.5}, "220": {"h": 220.0, "b": 110.0, "A": 33.4, "sp": 0.848, "Iy": 2772.0, "Iz": 205.0, "Wy": 252.0, "Wz": 37.3}, "240": {"h": 240.0, "b": 120.0, "A": 39.1, "sp": 0.921, "Iy": 3892.0, "Iz": 284.0, "Wy": 324.0, "Wz": 47.3}, "270": {"h": 270.0, "b": 135.0, "A": 45.9, "sp": 1.04, "Iy": 5790.0, "Iz": 420.0, "Wy": 429.0, "Wz": 62.2}, "300": {"h": 300.0, "b": 150.0, "A": 53.8, "sp": 1.16, "Iy": 8356.0, "Iz": 604.0, "Wy": 557.0, "Wz": 80.5}, "330": {"h": 330.0, "b": 160.0, "A": 62.6, "sp": 1.25, "Iy": 11710.0, "Iz": 788.0, "Wy": 713.0, "Wz": 98.5}, "360": {"h": 360.0, "b": 170.0, "A": 72.7, "sp": 1.35, "Iy": 16270.0, "Iz": 1043.0, "Wy": 904.0, "Wz": 123.0}, "400": {"h": 400.0, "b": 180.0, "A": 84.5, "sp": 1.47, "Iy": 23130.0, "Iz": 1318.0, "Wy": 1160.0, "Wz": 146.0}, "450": {"h": 450.0, "b": 190.0, "A": 98.8, "sp": 1.61, "Iy": 33740.0, "Iz": 1676.0, "Wy": 1500.0, "Wz": 176.0}, "500": {"h": 500.0, "b": 200.0, "A": 115.5, "sp": 1.74, "Iy": 48200.0, "Iz": 2142.0, "Wy": 1930.0, "Wz": 214.0}}, "IPN": {"80": {"h": 80.0, "b": 42.0, "A": 7.58, "sp": 0.304, "Iy": 77.8, "Iz": 6.29, "Wy": 19.5, "Wz": 3.0}, "100": {"h": 100.0, "b": 50.0, "A": 10.6, "sp": 0.37, "Iy": 171.0, "Iz": 12.2, "Wy": 34.2, "Wz": 4.88}, "120": {"h": 120.0, "b": 58.0, "A": 14.2, "sp": 0.439, "Iy": 328.0, "Iz": 21.5, "Wy": 54.7, "Wz": 7.41}, "140": {"h": 140.0, "b": 66.0, "A": 18.3, "sp": 0.502, "Iy": 573.0, "Iz": 35.2, "Wy": 81.9, "Wz": 10.7}, "160": {"h": 160.0, "b": 74.0, "A": 22.8, "sp": 0.575, "Iy": 935.0, "Iz": 54.7, "Wy": 117.0, "Wz": 14.8}, "180": {"h": 180.0, "b": 82.0, "A": 27.9, "sp": 0.64, "Iy": 1450.0, "Iz": 81.3, "Wy": 161.0, "Wz": 19.8}, "200": {"h": 200.0, "b": 90.0, "A": 33.5, "sp": 0.709, "Iy": 2140.0, "Iz": 117.0, "Wy": 214.0, "Wz": 26.0}, "220": {"h": 220.0, "b": 98.0, "A": 39.6, "sp": 0.775, "Iy": 3060.0, "Iz": 162.0, "Wy": 278.0, "Wz": 33.1}, "240": {"h": 240.0, "b": 106.0, "A": 46.1, "sp": 0.844, "Iy": 4250.0, "Iz": 221.0, "Wy": 354.0, "Wz": 41.7}, "280": {"h": 280.0, "b": 119.0, "A": 61.1, "sp": 0.966, "Iy": 7590.0, "Iz": 364.0, "Wy": 542.0, "Wz": 61.2}, "300": {"h": 300.0, "b": 125.0, "A": 69.1, "sp": 1.03, "Iy": 9800.0, "Iz": 451.0, "Wy": 653.0, "Wz": 72.2}}, "HEA": {"100": {"h": 96.0, "b": 100.0, "A": 21.2, "sp": 0.562, "Iy": 349.0, "Iz": 134.0, "Wy": 73.0, "Wz": 27.0}, "120": {"h": 114.0, "b": 120.0, "A": 25.3, "sp": 0.677, "Iy": 606.0, "Iz": 231.0, "Wy": 106.0, "Wz": 38.0}, "140": {"h": 133.0, "b": 140.0, "A": 31.4, "sp": 0.794, "Iy": 1033.0, "Iz": 389.0, "Wy": 155.0, "Wz": 56.0}, "160": {"h": 152.0, "b": 160.0, "A": 38.8, "sp": 0.896, "Iy": 1673.0, "Iz": 616.0, "Wy": 220.0, "Wz": 77.0}, "180": {"h": 171.0, "b": 180.0, "A": 45.3, "sp": 1.02, "Iy": 2510.0, "Iz": 925.0, "Wy": 294.0, "Wz": 103.0}, "200": {"h": 190.0, "b": 200.0, "A": 53.8, "sp": 1.14, "Iy": 3692.0, "Iz": 1336.0, "Wy": 389.0, "Wz": 134.0}, "220": {"h": 210.0, "b": 220.0, "A": 64.3, "sp": 1.26, "Iy": 5410.0, "Iz": 1955.0, "Wy": 515.0, "Wz": 178.0}, "240": {"h": 230.0, "b": 240.0, "A": 76.8, "sp": 1.37, "Iy": 7763.0, "Iz": 2769.0, "Wy": 675.0, "Wz": 231.0}, "260": {"h": 250.0, "b": 260.0, "A": 86.8, "sp": 1.48, "Iy": 10460.0, "Iz": 3668.0, "Wy": 836.0, "Wz": 282.0}, "280": {"h": 270.0, "b": 280.0, "A": 97.3, "sp": 1.6, "Iy": 13670.0, "Iz": 4763.0, "Wy": 1010.0, "Wz": 340.0}, "300": {"h": 290.0, "b": 300.0, "A": 112.5, "sp": 1.72, "Iy": 18260.0, "Iz": 6310.0, "Wy": 1260.0, "Wz": 421.0}, "320": {"h": 310.0, "b": 300.0, "A": 124.4, "sp": 1.76, "Iy": 22930, "Iz": 6985, "Wy": 1479, "Wz": 465.7}, "340": {"h": 330.0, "b": 300.0, "A": 133.5, "sp": 1.80, "Iy": 27690, "Iz": 7436, "Wy": 1678, "Wz": 495.7}, "360": {"h": 350.0, "b": 300.0, "A": 142.8, "sp": 1.83, "Iy": 33090, "Iz": 7887, "Wy": 1891, "Wz": 525.8}, "400": {"h": 390.0, "b": 300.0, "A": 159.0, "sp": 1.91, "Iy": 45070, "Iz": 8564, "Wy": 2311, "Wz": 570.9}, "450": {"h": 440.0, "b": 300.0, "A": 178.0, "sp": 2.01, "Iy": 63720, "Iz": 9465, "Wy": 2896, "Wz": 631.0}, "500": {"h": 490.0, "b": 300.0, "A": 197.5, "sp": 2.11, "Iy": 86970, "Iz": 10370, "Wy": 3550, "Wz": 691.1}, "550": {"h": 540.0, "b": 300.0, "A": 211.8, "sp": 2.21, "Iy": 111900, "Iz": 10820, "Wy": 4146, "Wz": 721.3}, "600": {"h": 590.0, "b": 300.0, "A": 226.5, "sp": 2.31, "Iy": 141200, "Iz": 11270, "Wy": 4787, "Wz": 751.4}, "650": {"h": 640.0, "b": 300.0, "A": 241.6, "sp": 2.41, "Iy": 175200, "Iz": 11720, "Wy": 5474, "Wz": 781.6}, "700": {"h": 690.0, "b": 300.0, "A": 260.5, "sp": 2.50, "Iy": 215300, "Iz": 12180, "Wy": 6241, "Wz": 811.9}, "800": {"h": 790.0, "b": 300.0, "A": 285.8, "sp": 2.70, "Iy": 303400, "Iz": 12640, "Wy": 7682, "Wz": 842.6}, "900": {"h": 890.0, "b": 300.0, "A": 320.5, "sp": 2.90, "Iy": 422100, "Iz": 13550, "Wy": 9485, "Wz": 903.2}, "1000": {"h": 990.0, "b": 300.0, "A": 346.8, "sp": 3.10, "Iy": 553800, "Iz": 14000, "Wy": 11190, "Wz": 933.6}}, "HEB": {"100": {"h": 100.0, "b": 100.0, "A": 26.0, "sp": 0.567, "Iy": 450.0, "Iz": 167.0, "Wy": 90.0, "Wz": 33.0}, "120": {"h": 120.0, "b": 120.0, "A": 34.0, "sp": 0.686, "Iy": 864.0, "Iz": 318.0, "Wy": 144.0, "Wz": 53.0}, "140": {"h": 140.0, "b": 140.0, "A": 43.0, "sp": 0.805, "Iy": 1509.0, "Iz": 550.0, "Wy": 216.0, "Wz": 79.0}, "160": {"h": 160.0, "b": 160.0, "A": 54.3, "sp": 0.918, "Iy": 2492.0, "Iz": 889.0, "Wy": 311.0, "Wz": 111.0}, "180": {"h": 180.0, "b": 180.0, "A": 65.3, "sp": 1.03, "Iy": 3831.0, "Iz": 1363.0, "Wy": 426.0, "Wz": 151.0}, "200": {"h": 200.0, "b": 200.0, "A": 78.1, "sp": 1.15, "Iy": 5696.0, "Iz": 2003.0, "Wy": 570.0, "Wz": 200.0}, "220": {"h": 220.0, "b": 220.0, "A": 91.0, "sp": 1.27, "Iy": 8091.0, "Iz": 2843.0, "Wy": 736.0, "Wz": 258.0}, "240": {"h": 240.0, "b": 240.0, "A": 106.0, "sp": 1.38, "Iy": 11260.0, "Iz": 3923.0, "Wy": 938.0, "Wz": 327.0}, "260": {"h": 260.0, "b": 260.0, "A": 118.4, "sp": 1.5, "Iy": 14920.0, "Iz": 5135.0, "Wy": 1150.0, "Wz": 395.0}, "280": {"h": 280.0, "b": 280.0, "A": 131.4, "sp": 1.62, "Iy": 19270.0, "Iz": 6595.0, "Wy": 1380.0, "Wz": 471.0}, "300": {"h": 300.0, "b": 300.0, "A": 149.1, "sp": 1.73, "Iy": 25170.0, "Iz": 8563.0, "Wy": 1680.0, "Wz": 571.0}, "320": {"h": 320.0, "b": 300.0, "A": 161.3, "sp": 1.77, "Iy": 30820.0, "Iz": 9239.0, "Wy": 1930.0, "Wz": 616.0}, "340": {"h": 340.0, "b": 300.0, "A": 170.9, "sp": 1.81, "Iy": 36660.0, "Iz": 9690.0, "Wy": 2160.0, "Wz": 646.0}, "360": {"h": 360.0, "b": 300.0, "A": 180.6, "sp": 1.85, "Iy": 43190.0, "Iz": 10140.0, "Wy": 2400.0, "Wz": 676.0}, "400": {"h": 400.0, "b": 300.0, "A": 197.8, "sp": 1.93, "Iy": 57680.0, "Iz": 10820.0, "Wy": 2880.0, "Wz": 721.0}, "450": {"h": 450.0, "b": 300.0, "A": 218.0, "sp": 2.03, "Iy": 79890, "Iz": 11720, "Wy": 3551, "Wz": 781.4}, "500": {"h": 500.0, "b": 300.0, "A": 238.6, "sp": 2.13, "Iy": 107200, "Iz": 12620, "Wy": 4287, "Wz": 841.6}, "550": {"h": 550.0, "b": 300.0, "A": 254.1, "sp": 2.22, "Iy": 136700, "Iz": 13080, "Wy": 4971, "Wz": 871.8}, "600": {"h": 600.0, "b": 300.0, "A": 270.0, "sp": 2.32, "Iy": 171000, "Iz": 13530, "Wy": 5701, "Wz": 902.0}, "650": {"h": 650.0, "b": 300.0, "A": 286.3, "sp": 2.42, "Iy": 210600, "Iz": 13980, "Wy": 6480, "Wz": 932.2}, "700": {"h": 700.0, "b": 300.0, "A": 306.4, "sp": 2.52, "Iy": 256900, "Iz": 14440, "Wy": 7340, "Wz": 962.7}, "800": {"h": 800.0, "b": 300.0, "A": 334.2, "sp": 2.71, "Iy": 359100, "Iz": 14900, "Wy": 8977, "Wz": 993.5}, "900": {"h": 900.0, "b": 300.0, "A": 371.3, "sp": 2.91, "Iy": 494100, "Iz": 15820, "Wy": 10980, "Wz": 1054}, "1000": {"h": 1000.0, "b": 300.0, "A": 400.0, "sp": 3.11, "Iy": 644700, "Iz": 16280, "Wy": 12890, "Wz": 1085}}, "UPE": {"80": {"h": 80.0, "b": 50.0, "A": 10.1, "sp": 0.34, "Iy": 107.2, "Iz": 25.41, "Wy": 26.8, "Wz": 7.98}, "100": {"h": 100.0, "b": 55.0, "A": 12.5, "sp": 0.4, "Iy": 206.9, "Iz": 38.21, "Wy": 41.37, "Wz": 10.63}, "120": {"h": 120.0, "b": 60.0, "A": 15.4, "sp": 0.46, "Iy": 363.5, "Iz": 55.4, "Wy": 60.58, "Wz": 13.79}, "140": {"h": 140.0, "b": 65.0, "A": 18.4, "sp": 0.52, "Iy": 599.5, "Iz": 78.7, "Wy": 85.64, "Wz": 18.19}, "160": {"h": 160.0, "b": 70.0, "A": 21.7, "sp": 0.58, "Iy": 911.1, "Iz": 106.8, "Wy": 113.9, "Wz": 22.58}, "180": {"h": 180.0, "b": 75.0, "A": 25.1, "sp": 0.64, "Iy": 1353.0, "Iz": 143.7, "Wy": 150.4, "Wz": 28.56}, "200": {"h": 200.0, "b": 80.0, "A": 29.0, "sp": 0.7, "Iy": 1909.0, "Iz": 187.3, "Wy": 190.9, "Wz": 34.43}, "220": {"h": 220.0, "b": 85.0, "A": 33.9, "sp": 0.76, "Iy": 2682.0, "Iz": 246.4, "Wy": 243.9, "Wz": 42.51}, "240": {"h": 240.0, "b": 90.0, "A": 38.5, "sp": 0.81, "Iy": 3599.0, "Iz": 310.9, "Wy": 299.9, "Wz": 50.08}, "270": {"h": 270.0, "b": 95.0, "A": 44.8, "sp": 0.89, "Iy": 5255.0, "Iz": 401.0, "Wy": 389.2, "Wz": 60.69}, "300": {"h": 300.0, "b": 100.0, "A": 56.6, "sp": 0.97, "Iy": 7823.0, "Iz": 537.7, "Wy": 521.5, "Wz": 75.58}, "330": {"h": 330.0, "b": 105.0, "A": 67.8, "sp": 1.04, "Iy": 11010.0, "Iz": 681.5, "Wy": 667.1, "Wz": 89.66}, "360": {"h": 360.0, "b": 110.0, "A": 77.9, "sp": 1.12, "Iy": 14830.0, "Iz": 843.7, "Wy": 823.6, "Wz": 105.1}, "400": {"h": 400.0, "b": 115.0, "A": 91.9, "sp": 1.22, "Iy": 20980.0, "Iz": 1045.0, "Wy": 1049.0, "Wz": 122.6}}, "UAP": {"80": {"h": 80.0, "b": 45.0, "A": 10.7, "sp": 0.33, "Iy": 107.0, "Iz": 21.3, "Wy": 26.8, "Wz": 7.38}, "100": {"h": 100.0, "b": 50.0, "A": 13.4, "sp": 0.389, "Iy": 209.0, "Iz": 32.8, "Wy": 41.9, "Wz": 9.95}, "130": {"h": 130.0, "b": 55.0, "A": 17.5, "sp": 0.468, "Iy": 459.0, "Iz": 51.3, "Wy": 70.7, "Wz": 13.8}, "150": {"h": 150.0, "b": 65.0, "A": 22.9, "sp": 0.546, "Iy": 797.0, "Iz": 93.3, "Wy": 106.0, "Wz": 21.0}, "175": {"h": 175.0, "b": 70.0, "A": 27.0, "sp": 0.615, "Iy": 1272.0, "Iz": 126.4, "Wy": 145.0, "Wz": 25.9}, "200": {"h": 200.0, "b": 75.0, "A": 32.0, "sp": 0.684, "Iy": 1946.0, "Iz": 169.7, "Wy": 195.0, "Wz": 32.1}, "220": {"h": 220.0, "b": 80.0, "A": 36.3, "sp": 0.744, "Iy": 2710.0, "Iz": 222.3, "Wy": 247.0, "Wz": 39.8}, "250": {"h": 250.0, "b": 85.0, "A": 43.8, "sp": 0.822, "Iy": 4136.0, "Iz": 296.7, "Wy": 331.0, "Wz": 49.1}, "300": {"h": 300.0, "b": 100.0, "A": 58.6, "sp": 0.981, "Iy": 8170.0, "Iz": 562.1, "Wy": 545.0, "Wz": 79.8}},
+    "UPN": {"80": {"h": 80.0, "b": 45.0, "A": 11.0, "sp": 0.312, "Iy": 106.0, "Iz": 19.4, "Wy": 26.5, "Wz": 6.36}, "100": {"h": 100.0, "b": 50.0, "A": 13.5, "sp": 0.372, "Iy": 206.0, "Iz": 29.3, "Wy": 41.2, "Wz": 8.49}, "120": {"h": 120.0, "b": 55.0, "A": 17.0, "sp": 0.434, "Iy": 364.0, "Iz": 43.2, "Wy": 60.7, "Wz": 11.1}, "140": {"h": 140.0, "b": 60.0, "A": 20.4, "sp": 0.489, "Iy": 605.0, "Iz": 62.7, "Wy": 86.4, "Wz": 14.8}, "160": {"h": 160.0, "b": 65.0, "A": 24.0, "sp": 0.546, "Iy": 925.0, "Iz": 85.3, "Wy": 116.0, "Wz": 18.3}, "180": {"h": 180.0, "b": 70.0, "A": 28.0, "sp": 0.611, "Iy": 1350.0, "Iz": 114.0, "Wy": 150.0, "Wz": 22.4}, "200": {"h": 200.0, "b": 75.0, "A": 32.2, "sp": 0.661, "Iy": 1910.0, "Iz": 148.0, "Wy": 191.0, "Wz": 27.0}, "220": {"h": 220.0, "b": 80.0, "A": 37.4, "sp": 0.718, "Iy": 2690.0, "Iz": 197.0, "Wy": 245.0, "Wz": 33.6}, "240": {"h": 240.0, "b": 85.0, "A": 42.3, "sp": 0.775, "Iy": 3600.0, "Iz": 248.0, "Wy": 300.0, "Wz": 39.6}, "260": {"h": 260.0, "b": 90.0, "A": 48.3, "sp": 0.834, "Iy": 4820.0, "Iz": 317.0, "Wy": 371.0, "Wz": 47.7}, "280": {"h": 280.0, "b": 95.0, "A": 53.3, "sp": 0.89, "Iy": 6280, "Iz": 399, "Wy": 448, "Wz": 57.2}, "300": {"h": 300.0, "b": 100.0, "A": 58.8, "sp": 0.95, "Iy": 8030.0, "Iz": 495.0, "Wy": 535.0, "Wz": 67.8}, "320": {"h": 320.0, "b": 100.0, "A": 75.8, "sp": 0.98, "Iy": 10870, "Iz": 597, "Wy": 679, "Wz": 80.6}, "350": {"h": 350.0, "b": 100.0, "A": 77.3, "sp": 1.05, "Iy": 12840, "Iz": 570, "Wy": 734, "Wz": 75.0}, "380": {"h": 380.0, "b": 102.0, "A": 80.4, "sp": 1.11, "Iy": 15760, "Iz": 615, "Wy": 829, "Wz": 78.7}, "400": {"h": 400.0, "b": 110.0, "A": 91.5, "sp": 1.18, "Iy": 20350, "Iz": 846, "Wy": 1020, "Wz": 102.0}}, "SHS": {"40x3":{"h":40.0,"b":40.0,"A":4.44,"sp":0.16,"Iy":10.2,"Iz":10.2,"Wy":5.1,"Wz":5.1},"40x4":{"h":40.0,"b":40.0,"A":5.76,"sp":0.16,"Iy":12.6,"Iz":12.6,"Wy":6.3,"Wz":6.3},"50x3":{"h":50.0,"b":50.0,"A":5.64,"sp":0.2,"Iy":20.8,"Iz":20.8,"Wy":8.3,"Wz":8.3},"50x4":{"h":50.0,"b":50.0,"A":7.36,"sp":0.2,"Iy":26.2,"Iz":26.2,"Wy":10.5,"Wz":10.5},"50x5":{"h":50.0,"b":50.0,"A":9.0,"sp":0.2,"Iy":30.8,"Iz":30.8,"Wy":12.3,"Wz":12.3},"60x3":{"h":60.0,"b":60.0,"A":6.84,"sp":0.24,"Iy":37.1,"Iz":37.1,"Wy":12.4,"Wz":12.4},"60x4":{"h":60.0,"b":60.0,"A":8.96,"sp":0.24,"Iy":47.1,"Iz":47.1,"Wy":15.7,"Wz":15.7},"60x5":{"h":60.0,"b":60.0,"A":11.0,"sp":0.24,"Iy":55.9,"Iz":55.9,"Wy":18.6,"Wz":18.6},"80x4":{"h":80.0,"b":80.0,"A":12.16,"sp":0.32,"Iy":117.4,"Iz":117.4,"Wy":29.4,"Wz":29.4},"80x5":{"h":80.0,"b":80.0,"A":15.0,"sp":0.32,"Iy":141.2,"Iz":141.2,"Wy":35.3,"Wz":35.3},"80x6":{"h":80.0,"b":80.0,"A":17.76,"sp":0.32,"Iy":163.2,"Iz":163.2,"Wy":40.8,"Wz":40.8},"100x4":{"h":100.0,"b":100.0,"A":15.36,"sp":0.4,"Iy":236.3,"Iz":236.3,"Wy":47.3,"Wz":47.3},"100x5":{"h":100.0,"b":100.0,"A":19.0,"sp":0.4,"Iy":286.6,"Iz":286.6,"Wy":57.3,"Wz":57.3},"100x6":{"h":100.0,"b":100.0,"A":22.56,"sp":0.4,"Iy":333.6,"Iz":333.6,"Wy":66.7,"Wz":66.7},"100x8":{"h":100.0,"b":100.0,"A":29.44,"sp":0.4,"Iy":418.4,"Iz":418.4,"Wy":83.7,"Wz":83.7},"120x5":{"h":120.0,"b":120.0,"A":23.0,"sp":0.48,"Iy":507.9,"Iz":507.9,"Wy":84.6,"Wz":84.6},"120x6":{"h":120.0,"b":120.0,"A":27.36,"sp":0.48,"Iy":594.3,"Iz":594.3,"Wy":99.0,"Wz":99.0},"120x8":{"h":120.0,"b":120.0,"A":35.84,"sp":0.48,"Iy":753.1,"Iz":753.1,"Wy":125.5,"Wz":125.5},"120x10":{"h":120.0,"b":120.0,"A":44.0,"sp":0.48,"Iy":894.7,"Iz":894.7,"Wy":149.1,"Wz":149.1},"150x5":{"h":150.0,"b":150.0,"A":29.0,"sp":0.6,"Iy":1017.4,"Iz":1017.4,"Wy":135.7,"Wz":135.7},"150x6":{"h":150.0,"b":150.0,"A":34.56,"sp":0.6,"Iy":1196.5,"Iz":1196.5,"Wy":159.5,"Wz":159.5},"150x8":{"h":150.0,"b":150.0,"A":45.44,"sp":0.6,"Iy":1531.9,"Iz":1531.9,"Wy":204.3,"Wz":204.3},"150x10":{"h":150.0,"b":150.0,"A":56.0,"sp":0.6,"Iy":1838.7,"Iz":1838.7,"Wy":245.2,"Wz":245.2},"200x6":{"h":200.0,"b":200.0,"A":46.56,"sp":0.8,"Iy":2923.3,"Iz":2923.3,"Wy":292.3,"Wz":292.3},"200x8":{"h":200.0,"b":200.0,"A":61.44,"sp":0.8,"Iy":3781.4,"Iz":3781.4,"Wy":378.1,"Wz":378.1},"200x10":{"h":200.0,"b":200.0,"A":76.0,"sp":0.8,"Iy":4585.3,"Iz":4585.3,"Wy":458.5,"Wz":458.5},"200x12":{"h":200.0,"b":200.0,"A":90.24,"sp":0.8,"Iy":5337.4,"Iz":5337.4,"Wy":533.7,"Wz":533.7},"250x8":{"h":250.0,"b":250.0,"A":77.44,"sp":1.0,"Iy":7566.9,"Iz":7566.9,"Wy":605.4,"Wz":605.4},"250x10":{"h":250.0,"b":250.0,"A":96.0,"sp":1.0,"Iy":9232.0,"Iz":9232.0,"Wy":738.6,"Wz":738.6},"250x12":{"h":250.0,"b":250.0,"A":114.24,"sp":1.0,"Iy":10812.4,"Iz":10812.4,"Wy":865.0,"Wz":865.0},"300x8":{"h":300.0,"b":300.0,"A":93.44,"sp":1.2,"Iy":13288.4,"Iz":13288.4,"Wy":885.9,"Wz":885.9},"300x10":{"h":300.0,"b":300.0,"A":116.0,"sp":1.2,"Iy":16278.7,"Iz":16278.7,"Wy":1085.2,"Wz":1085.2},"300x12":{"h":300.0,"b":300.0,"A":138.24,"sp":1.2,"Iy":19143.5,"Iz":19143.5,"Wy":1276.2,"Wz":1276.2},"300x16":{"h":300.0,"b":300.0,"A":181.76,"sp":1.2,"Iy":24510.9,"Iz":24510.9,"Wy":1634.1,"Wz":1634.1}}, "RHS": {"50x30x3":{"h":50.0,"b":30.0,"A":4.44,"sp":0.16,"Iy":14.2,"Iz":6.2,"Wy":5.7,"Wz":4.1},"60x40x3":{"h":60.0,"b":40.0,"A":5.64,"sp":0.2,"Iy":27.4,"Iz":14.3,"Wy":9.1,"Wz":7.2},"60x40x4":{"h":60.0,"b":40.0,"A":7.36,"sp":0.2,"Iy":34.5,"Iz":17.8,"Wy":11.5,"Wz":8.9},"80x40x4":{"h":80.0,"b":40.0,"A":8.96,"sp":0.24,"Iy":71.1,"Iz":23.0,"Wy":17.8,"Wz":11.5},"80x40x5":{"h":80.0,"b":40.0,"A":11.0,"sp":0.24,"Iy":84.9,"Iz":26.9,"Wy":21.2,"Wz":13.4},"100x50x4":{"h":100.0,"b":50.0,"A":11.36,"sp":0.3,"Iy":144.1,"Iz":47.4,"Wy":28.8,"Wz":19.0},"100x50x5":{"h":100.0,"b":50.0,"A":14.0,"sp":0.3,"Iy":173.7,"Iz":56.2,"Wy":34.7,"Wz":22.5},"100x60x4":{"h":100.0,"b":60.0,"A":12.16,"sp":0.32,"Iy":162.6,"Iz":72.2,"Wy":32.5,"Wz":24.1},"100x60x5":{"h":100.0,"b":60.0,"A":15.0,"sp":0.32,"Iy":196.2,"Iz":86.2,"Wy":39.2,"Wz":28.7},"120x60x5":{"h":120.0,"b":60.0,"A":17.0,"sp":0.36,"Iy":309.4,"Iz":101.4,"Wy":51.6,"Wz":33.8},"120x60x6":{"h":120.0,"b":60.0,"A":20.16,"sp":0.36,"Iy":360.1,"Iz":116.5,"Wy":60.0,"Wz":38.8},"120x80x5":{"h":120.0,"b":80.0,"A":19.0,"sp":0.4,"Iy":375.6,"Iz":197.6,"Wy":62.6,"Wz":49.4},"120x80x6":{"h":120.0,"b":80.0,"A":22.56,"sp":0.4,"Iy":438.2,"Iz":229.0,"Wy":73.0,"Wz":57.2},"150x100x5":{"h":150.0,"b":100.0,"A":24.0,"sp":0.5,"Iy":754.5,"Iz":399.5,"Wy":100.6,"Wz":79.9},"150x100x6":{"h":150.0,"b":100.0,"A":28.56,"sp":0.5,"Iy":885.2,"Iz":466.3,"Wy":118.0,"Wz":93.3},"150x100x8":{"h":150.0,"b":100.0,"A":37.44,"sp":0.5,"Iy":1128.2,"Iz":588.1,"Wy":150.4,"Wz":117.6},"200x100x6":{"h":200.0,"b":100.0,"A":34.56,"sp":0.6,"Iy":1793.9,"Iz":599.0,"Wy":179.4,"Wz":119.8},"200x100x8":{"h":200.0,"b":100.0,"A":45.44,"sp":0.6,"Iy":2306.0,"Iz":757.9,"Wy":230.6,"Wz":151.6},"200x120x6":{"h":200.0,"b":120.0,"A":36.96,"sp":0.64,"Iy":2019.8,"Iz":906.5,"Wy":202.0,"Wz":151.1},"200x120x8":{"h":200.0,"b":120.0,"A":48.64,"sp":0.64,"Iy":2601.1,"Iz":1155.2,"Wy":260.1,"Wz":192.5},"250x150x8":{"h":250.0,"b":150.0,"A":61.44,"sp":0.8,"Iy":5223.5,"Iz":2339.3,"Wy":417.9,"Wz":311.9},"250x150x10":{"h":250.0,"b":150.0,"A":76.0,"sp":0.8,"Iy":6350.3,"Iz":2820.3,"Wy":508.0,"Wz":376.0},"300x200x8":{"h":300.0,"b":200.0,"A":77.44,"sp":1.0,"Iy":9877.0,"Iz":5256.8,"Wy":658.5,"Wz":525.7},"300x200x10":{"h":300.0,"b":200.0,"A":96.0,"sp":1.0,"Iy":12072.0,"Iz":6392.0,"Wy":804.8,"Wz":639.2},"300x200x12":{"h":300.0,"b":200.0,"A":114.24,"sp":1.0,"Iy":14164.0,"Iz":7460.9,"Wy":944.3,"Wz":746.1}}, "CHS": {"26.9x2":{"h":26.9,"b":26.9,"A":1.56,"sp":0.085,"Iy":1.2,"Iz":1.2,"Wy":0.9,"Wz":0.9},"33.7x2":{"h":33.7,"b":33.7,"A":1.99,"sp":0.106,"Iy":2.5,"Iz":2.5,"Wy":1.5,"Wz":1.5},"33.7x3":{"h":33.7,"b":33.7,"A":2.89,"sp":0.106,"Iy":3.4,"Iz":3.4,"Wy":2.0,"Wz":2.0},"42.3x2":{"h":42.3,"b":42.3,"A":2.53,"sp":0.133,"Iy":5.2,"Iz":5.2,"Wy":2.5,"Wz":2.5},"42.3x3":{"h":42.3,"b":42.3,"A":3.7,"sp":0.133,"Iy":7.2,"Iz":7.2,"Wy":3.4,"Wz":3.4},"42.3x4":{"h":42.3,"b":42.3,"A":4.81,"sp":0.133,"Iy":8.9,"Iz":8.9,"Wy":4.2,"Wz":4.2},"48.3x2":{"h":48.3,"b":48.3,"A":2.91,"sp":0.152,"Iy":7.8,"Iz":7.8,"Wy":3.2,"Wz":3.2},"48.3x3":{"h":48.3,"b":48.3,"A":4.27,"sp":0.152,"Iy":11.0,"Iz":11.0,"Wy":4.6,"Wz":4.6},"48.3x4":{"h":48.3,"b":48.3,"A":5.57,"sp":0.152,"Iy":13.8,"Iz":13.8,"Wy":5.7,"Wz":5.7},"60.3x3":{"h":60.3,"b":60.3,"A":5.4,"sp":0.189,"Iy":22.2,"Iz":22.2,"Wy":7.4,"Wz":7.4},"60.3x4":{"h":60.3,"b":60.3,"A":7.07,"sp":0.189,"Iy":28.2,"Iz":28.2,"Wy":9.4,"Wz":9.4},"60.3x5":{"h":60.3,"b":60.3,"A":8.69,"sp":0.189,"Iy":33.5,"Iz":33.5,"Wy":11.1,"Wz":11.1},"76.1x3":{"h":76.1,"b":76.1,"A":6.89,"sp":0.239,"Iy":46.1,"Iz":46.1,"Wy":12.1,"Wz":12.1},"76.1x4":{"h":76.1,"b":76.1,"A":9.06,"sp":0.239,"Iy":59.1,"Iz":59.1,"Wy":15.5,"Wz":15.5},"76.1x5":{"h":76.1,"b":76.1,"A":11.17,"sp":0.239,"Iy":70.9,"Iz":70.9,"Wy":18.6,"Wz":18.6},"88.9x3":{"h":88.9,"b":88.9,"A":8.1,"sp":0.279,"Iy":74.8,"Iz":74.8,"Wy":16.8,"Wz":16.8},"88.9x4":{"h":88.9,"b":88.9,"A":10.67,"sp":0.279,"Iy":96.3,"Iz":96.3,"Wy":21.7,"Wz":21.7},"88.9x5":{"h":88.9,"b":88.9,"A":13.18,"sp":0.279,"Iy":116.4,"Iz":116.4,"Wy":26.2,"Wz":26.2},"88.9x6":{"h":88.9,"b":88.9,"A":15.63,"sp":0.279,"Iy":134.9,"Iz":134.9,"Wy":30.3,"Wz":30.3},"101.6x4":{"h":101.6,"b":101.6,"A":12.26,"sp":0.319,"Iy":146.3,"Iz":146.3,"Wy":28.8,"Wz":28.8},"101.6x5":{"h":101.6,"b":101.6,"A":15.17,"sp":0.319,"Iy":177.5,"Iz":177.5,"Wy":34.9,"Wz":34.9},"101.6x6":{"h":101.6,"b":101.6,"A":18.02,"sp":0.319,"Iy":206.7,"Iz":206.7,"Wy":40.7,"Wz":40.7},"114.3x4":{"h":114.3,"b":114.3,"A":13.86,"sp":0.359,"Iy":211.1,"Iz":211.1,"Wy":36.9,"Wz":36.9},"114.3x5":{"h":114.3,"b":114.3,"A":17.17,"sp":0.359,"Iy":256.9,"Iz":256.9,"Wy":45.0,"Wz":45.0},"114.3x6":{"h":114.3,"b":114.3,"A":20.41,"sp":0.359,"Iy":300.2,"Iz":300.2,"Wy":52.5,"Wz":52.5},"114.3x8":{"h":114.3,"b":114.3,"A":26.72,"sp":0.359,"Iy":379.5,"Iz":379.5,"Wy":66.4,"Wz":66.4},"139.7x5":{"h":139.7,"b":139.7,"A":21.16,"sp":0.439,"Iy":480.5,"Iz":480.5,"Wy":68.8,"Wz":68.8},"139.7x6":{"h":139.7,"b":139.7,"A":25.2,"sp":0.439,"Iy":564.3,"Iz":564.3,"Wy":80.8,"Wz":80.8},"139.7x8":{"h":139.7,"b":139.7,"A":33.1,"sp":0.439,"Iy":720.3,"Iz":720.3,"Wy":103.1,"Wz":103.1},"139.7x10":{"h":139.7,"b":139.7,"A":40.75,"sp":0.439,"Iy":861.9,"Iz":861.9,"Wy":123.4,"Wz":123.4},"168.3x5":{"h":168.3,"b":168.3,"A":25.65,"sp":0.529,"Iy":855.8,"Iz":855.8,"Wy":101.7,"Wz":101.7},"168.3x6":{"h":168.3,"b":168.3,"A":30.59,"sp":0.529,"Iy":1008.7,"Iz":1008.7,"Wy":119.9,"Wz":119.9},"168.3x8":{"h":168.3,"b":168.3,"A":40.29,"sp":0.529,"Iy":1297.3,"Iz":1297.3,"Wy":154.2,"Wz":154.2},"168.3x10":{"h":168.3,"b":168.3,"A":49.73,"sp":0.529,"Iy":1564.0,"Iz":1564.0,"Wy":185.9,"Wz":185.9},"168.3x12":{"h":168.3,"b":168.3,"A":58.92,"sp":0.529,"Iy":1810.0,"Iz":1810.0,"Wy":215.1,"Wz":215.1},"193.7x6":{"h":193.7,"b":193.7,"A":35.38,"sp":0.609,"Iy":1559.7,"Iz":1559.7,"Wy":161.0,"Wz":161.0},"193.7x8":{"h":193.7,"b":193.7,"A":46.67,"sp":0.609,"Iy":2015.5,"Iz":2015.5,"Wy":208.1,"Wz":208.1},"193.7x10":{"h":193.7,"b":193.7,"A":57.71,"sp":0.609,"Iy":2441.6,"Iz":2441.6,"Wy":252.1,"Wz":252.1},"193.7x12":{"h":193.7,"b":193.7,"A":68.5,"sp":0.609,"Iy":2839.2,"Iz":2839.2,"Wy":293.2,"Wz":293.2},"219.1x6":{"h":219.1,"b":219.1,"A":40.17,"sp":0.688,"Iy":2281.9,"Iz":2281.9,"Wy":208.3,"Wz":208.3},"219.1x8":{"h":219.1,"b":219.1,"A":53.06,"sp":0.688,"Iy":2959.6,"Iz":2959.6,"Wy":270.2,"Wz":270.2},"219.1x10":{"h":219.1,"b":219.1,"A":65.69,"sp":0.688,"Iy":3598.4,"Iz":3598.4,"Wy":328.5,"Wz":328.5},"219.1x12":{"h":219.1,"b":219.1,"A":78.07,"sp":0.688,"Iy":4199.9,"Iz":4199.9,"Wy":383.4,"Wz":383.4},"219.1x16":{"h":219.1,"b":219.1,"A":102.09,"sp":0.688,"Iy":5296.6,"Iz":5296.6,"Wy":483.5,"Wz":483.5},"244.5x8":{"h":244.5,"b":244.5,"A":59.44,"sp":0.768,"Iy":4160.4,"Iz":4160.4,"Wy":340.3,"Wz":340.3},"244.5x10":{"h":244.5,"b":244.5,"A":73.67,"sp":0.768,"Iy":5073.1,"Iz":5073.1,"Wy":415.0,"Wz":415.0},"244.5x12":{"h":244.5,"b":244.5,"A":87.65,"sp":0.768,"Iy":5938.3,"Iz":5938.3,"Wy":485.8,"Wz":485.8},"244.5x16":{"h":244.5,"b":244.5,"A":114.86,"sp":0.768,"Iy":7532.9,"Iz":7532.9,"Wy":616.2,"Wz":616.2},"273x8":{"h":273,"b":273,"A":66.6,"sp":0.858,"Iy":5851.7,"Iz":5851.7,"Wy":428.7,"Wz":428.7},"273x10":{"h":273,"b":273,"A":82.62,"sp":0.858,"Iy":7154.1,"Iz":7154.1,"Wy":524.1,"Wz":524.1},"273x12":{"h":273,"b":273,"A":98.39,"sp":0.858,"Iy":8396.1,"Iz":8396.1,"Wy":615.1,"Wz":615.1},"273x16":{"h":273,"b":273,"A":129.18,"sp":0.858,"Iy":10706.8,"Iz":10706.8,"Wy":784.4,"Wz":784.4},"323.9x8":{"h":323.9,"b":323.9,"A":79.39,"sp":1.018,"Iy":9910.1,"Iz":9910.1,"Wy":611.9,"Wz":611.9},"323.9x10":{"h":323.9,"b":323.9,"A":98.61,"sp":1.018,"Iy":12158.3,"Iz":12158.3,"Wy":750.7,"Wz":750.7},"323.9x12":{"h":323.9,"b":323.9,"A":117.58,"sp":1.018,"Iy":14319.6,"Iz":14319.6,"Wy":884.2,"Wz":884.2},"323.9x16":{"h":323.9,"b":323.9,"A":154.77,"sp":1.018,"Iy":18389.9,"Iz":18389.9,"Wy":1135.5,"Wz":1135.5}}, "EA": {"25x3":{"h":25.0,"b":25.0,"A":1.41,"sp":0.05,"Iy":0.7,"Iz":0.7,"Wy":0.5,"Wz":0.5},"25x4":{"h":25.0,"b":25.0,"A":1.84,"sp":0.05,"Iy":0.9,"Iz":0.9,"Wy":0.7,"Wz":0.7},"30x3":{"h":30.0,"b":30.0,"A":1.71,"sp":0.06,"Iy":1.2,"Iz":1.2,"Wy":0.8,"Wz":0.8},"30x4":{"h":30.0,"b":30.0,"A":2.24,"sp":0.06,"Iy":1.6,"Iz":1.6,"Wy":1.0,"Wz":1.0},"35x3":{"h":35.0,"b":35.0,"A":2.01,"sp":0.07,"Iy":1.9,"Iz":1.9,"Wy":1.0,"Wz":1.0},"35x4":{"h":35.0,"b":35.0,"A":2.64,"sp":0.07,"Iy":2.5,"Iz":2.5,"Wy":1.4,"Wz":1.4},"35x5":{"h":35.0,"b":35.0,"A":3.25,"sp":0.07,"Iy":3.1,"Iz":3.1,"Wy":1.7,"Wz":1.7},"40x3":{"h":40.0,"b":40.0,"A":2.31,"sp":0.08,"Iy":2.9,"Iz":2.9,"Wy":1.4,"Wz":1.4},"40x4":{"h":40.0,"b":40.0,"A":3.04,"sp":0.08,"Iy":3.8,"Iz":3.8,"Wy":1.8,"Wz":1.8},"40x5":{"h":40.0,"b":40.0,"A":3.75,"sp":0.08,"Iy":4.6,"Iz":4.6,"Wy":2.2,"Wz":2.2},"45x4":{"h":45.0,"b":45.0,"A":3.44,"sp":0.09,"Iy":5.4,"Iz":5.4,"Wy":2.3,"Wz":2.3},"45x5":{"h":45.0,"b":45.0,"A":4.25,"sp":0.09,"Iy":6.7,"Iz":6.7,"Wy":2.8,"Wz":2.8},"45x6":{"h":45.0,"b":45.0,"A":5.04,"sp":0.09,"Iy":7.9,"Iz":7.9,"Wy":3.3,"Wz":3.3},"50x4":{"h":50.0,"b":50.0,"A":3.84,"sp":0.1,"Iy":7.5,"Iz":7.5,"Wy":2.9,"Wz":2.9},"50x5":{"h":50.0,"b":50.0,"A":4.75,"sp":0.1,"Iy":9.2,"Iz":9.2,"Wy":3.5,"Wz":3.5},"50x6":{"h":50.0,"b":50.0,"A":5.64,"sp":0.1,"Iy":10.9,"Iz":10.9,"Wy":4.1,"Wz":4.1},"55x5":{"h":55.0,"b":55.0,"A":5.25,"sp":0.11,"Iy":12.4,"Iz":12.4,"Wy":4.3,"Wz":4.3},"55x6":{"h":55.0,"b":55.0,"A":6.24,"sp":0.11,"Iy":14.6,"Iz":14.6,"Wy":5.0,"Wz":5.0},"60x5":{"h":60.0,"b":60.0,"A":5.75,"sp":0.12,"Iy":16.2,"Iz":16.2,"Wy":5.2,"Wz":5.2},"60x6":{"h":60.0,"b":60.0,"A":6.84,"sp":0.12,"Iy":19.1,"Iz":19.1,"Wy":6.1,"Wz":6.1},"60x7":{"h":60.0,"b":60.0,"A":7.91,"sp":0.12,"Iy":22.0,"Iz":22.0,"Wy":6.9,"Wz":6.9},"60x8":{"h":60.0,"b":60.0,"A":8.96,"sp":0.12,"Iy":24.8,"Iz":24.8,"Wy":7.8,"Wz":7.8},"65x6":{"h":65.0,"b":65.0,"A":7.44,"sp":0.13,"Iy":24.5,"Iz":24.5,"Wy":7.2,"Wz":7.2},"65x7":{"h":65.0,"b":65.0,"A":8.61,"sp":0.13,"Iy":28.2,"Iz":28.2,"Wy":8.2,"Wz":8.2},"65x8":{"h":65.0,"b":65.0,"A":9.76,"sp":0.13,"Iy":31.8,"Iz":31.8,"Wy":9.2,"Wz":9.2},"70x6":{"h":70.0,"b":70.0,"A":8.04,"sp":0.14,"Iy":30.8,"Iz":30.8,"Wy":8.4,"Wz":8.4},"70x7":{"h":70.0,"b":70.0,"A":9.31,"sp":0.14,"Iy":35.4,"Iz":35.4,"Wy":9.6,"Wz":9.6},"70x8":{"h":70.0,"b":70.0,"A":10.56,"sp":0.14,"Iy":40.0,"Iz":40.0,"Wy":10.8,"Wz":10.8},"75x6":{"h":75.0,"b":75.0,"A":8.64,"sp":0.15,"Iy":38.1,"Iz":38.1,"Wy":9.8,"Wz":9.8},"75x7":{"h":75.0,"b":75.0,"A":10.01,"sp":0.15,"Iy":43.9,"Iz":43.9,"Wy":11.2,"Wz":11.2},"75x8":{"h":75.0,"b":75.0,"A":11.36,"sp":0.15,"Iy":49.5,"Iz":49.5,"Wy":12.5,"Wz":12.5},"75x9":{"h":75.0,"b":75.0,"A":12.69,"sp":0.15,"Iy":55.1,"Iz":55.1,"Wy":13.9,"Wz":13.9},"75x10":{"h":75.0,"b":75.0,"A":14.0,"sp":0.15,"Iy":60.7,"Iz":60.7,"Wy":15.2,"Wz":15.2},"80x6":{"h":80.0,"b":80.0,"A":9.24,"sp":0.16,"Iy":46.5,"Iz":46.5,"Wy":11.2,"Wz":11.2},"80x7":{"h":80.0,"b":80.0,"A":10.71,"sp":0.16,"Iy":53.5,"Iz":53.5,"Wy":12.8,"Wz":12.8},"80x8":{"h":80.0,"b":80.0,"A":12.16,"sp":0.16,"Iy":60.5,"Iz":60.5,"Wy":14.4,"Wz":14.4},"80x9":{"h":80.0,"b":80.0,"A":13.59,"sp":0.16,"Iy":67.3,"Iz":67.3,"Wy":15.9,"Wz":15.9},"80x10":{"h":80.0,"b":80.0,"A":15.0,"sp":0.16,"Iy":74.1,"Iz":74.1,"Wy":17.4,"Wz":17.4},"80x12":{"h":80.0,"b":80.0,"A":17.76,"sp":0.16,"Iy":87.4,"Iz":87.4,"Wy":20.3,"Wz":20.3},"90x7":{"h":90.0,"b":90.0,"A":12.11,"sp":0.18,"Iy":77.0,"Iz":77.0,"Wy":16.5,"Wz":16.5},"90x8":{"h":90.0,"b":90.0,"A":13.76,"sp":0.18,"Iy":87.0,"Iz":87.0,"Wy":18.5,"Wz":18.5},"90x9":{"h":90.0,"b":90.0,"A":15.39,"sp":0.18,"Iy":96.9,"Iz":96.9,"Wy":20.5,"Wz":20.5},"90x10":{"h":90.0,"b":90.0,"A":17.0,"sp":0.18,"Iy":106.6,"Iz":106.6,"Wy":22.4,"Wz":22.4},"90x11":{"h":90.0,"b":90.0,"A":18.59,"sp":0.18,"Iy":116.2,"Iz":116.2,"Wy":24.3,"Wz":24.3},"90x12":{"h":90.0,"b":90.0,"A":20.16,"sp":0.18,"Iy":125.8,"Iz":125.8,"Wy":26.2,"Wz":26.2},"100x8":{"h":100.0,"b":100.0,"A":15.36,"sp":0.2,"Iy":120.4,"Iz":120.4,"Wy":23.2,"Wz":23.2},"100x9":{"h":100.0,"b":100.0,"A":17.19,"sp":0.2,"Iy":134.1,"Iz":134.1,"Wy":25.7,"Wz":25.7},"100x10":{"h":100.0,"b":100.0,"A":19.0,"sp":0.2,"Iy":147.6,"Iz":147.6,"Wy":28.1,"Wz":28.1},"100x11":{"h":100.0,"b":100.0,"A":20.79,"sp":0.2,"Iy":161.0,"Iz":161.0,"Wy":30.5,"Wz":30.5},"100x12":{"h":100.0,"b":100.0,"A":22.56,"sp":0.2,"Iy":174.2,"Iz":174.2,"Wy":32.9,"Wz":32.9},"100x14":{"h":100.0,"b":100.0,"A":26.04,"sp":0.2,"Iy":200.4,"Iz":200.4,"Wy":37.5,"Wz":37.5},"100x15":{"h":100.0,"b":100.0,"A":27.75,"sp":0.2,"Iy":213.5,"Iz":213.5,"Wy":39.7,"Wz":39.7},"110x10":{"h":110.0,"b":110.0,"A":21.0,"sp":0.22,"Iy":198.2,"Iz":198.2,"Wy":34.5,"Wz":34.5},"110x11":{"h":110.0,"b":110.0,"A":22.99,"sp":0.22,"Iy":216.2,"Iz":216.2,"Wy":37.4,"Wz":37.4},"110x12":{"h":110.0,"b":110.0,"A":24.96,"sp":0.22,"Iy":234.0,"Iz":234.0,"Wy":40.3,"Wz":40.3},"120x10":{"h":120.0,"b":120.0,"A":23.0,"sp":0.24,"Iy":259.2,"Iz":259.2,"Wy":41.5,"Wz":41.5},"120x11":{"h":120.0,"b":120.0,"A":25.19,"sp":0.24,"Iy":282.8,"Iz":282.8,"Wy":45.1,"Wz":45.1},"120x12":{"h":120.0,"b":120.0,"A":27.36,"sp":0.24,"Iy":306.2,"Iz":306.2,"Wy":48.6,"Wz":48.6},"120x13":{"h":120.0,"b":120.0,"A":29.51,"sp":0.24,"Iy":329.3,"Iz":329.3,"Wy":52.1,"Wz":52.1},"120x14":{"h":120.0,"b":120.0,"A":31.64,"sp":0.24,"Iy":352.2,"Iz":352.2,"Wy":55.5,"Wz":55.5},"120x15":{"h":120.0,"b":120.0,"A":33.75,"sp":0.24,"Iy":374.9,"Iz":374.9,"Wy":58.8,"Wz":58.8},"130x12":{"h":130.0,"b":130.0,"A":29.76,"sp":0.26,"Iy":392.0,"Iz":392.0,"Wy":57.6,"Wz":57.6},"130x13":{"h":130.0,"b":130.0,"A":32.11,"sp":0.26,"Iy":421.7,"Iz":421.7,"Wy":61.8,"Wz":61.8},"130x14":{"h":130.0,"b":130.0,"A":34.44,"sp":0.26,"Iy":451.1,"Iz":451.1,"Wy":65.9,"Wz":65.9},"150x12":{"h":150.0,"b":150.0,"A":34.56,"sp":0.3,"Iy":609.6,"Iz":609.6,"Wy":78.2,"Wz":78.2},"150x13":{"h":150.0,"b":150.0,"A":37.31,"sp":0.3,"Iy":656.0,"Iz":656.0,"Wy":83.8,"Wz":83.8},"150x14":{"h":150.0,"b":150.0,"A":40.04,"sp":0.3,"Iy":701.9,"Iz":701.9,"Wy":89.4,"Wz":89.4},"150x15":{"h":150.0,"b":150.0,"A":42.75,"sp":0.3,"Iy":747.5,"Iz":747.5,"Wy":94.9,"Wz":94.9},"150x18":{"h":150.0,"b":150.0,"A":50.76,"sp":0.3,"Iy":882.1,"Iz":882.1,"Wy":111.0,"Wz":111.0},"160x15":{"h":160.0,"b":160.0,"A":45.75,"sp":0.32,"Iy":912.4,"Iz":912.4,"Wy":108.9,"Wz":108.9},"160x17":{"h":160.0,"b":160.0,"A":51.51,"sp":0.32,"Iy":1022.4,"Iz":1022.4,"Wy":121.4,"Wz":121.4},"180x16":{"h":180.0,"b":180.0,"A":55.04,"sp":0.36,"Iy":1392.1,"Iz":1392.1,"Wy":148.1,"Wz":148.1},"180x18":{"h":180.0,"b":180.0,"A":61.56,"sp":0.36,"Iy":1549.9,"Iz":1549.9,"Wy":164.0,"Wz":164.0},"200x16":{"h":200.0,"b":200.0,"A":61.44,"sp":0.4,"Iy":1926.8,"Iz":1926.8,"Wy":185.3,"Wz":185.3},"200x18":{"h":200.0,"b":200.0,"A":68.76,"sp":0.4,"Iy":2146.1,"Iz":2146.1,"Wy":205.4,"Wz":205.4},"200x20":{"h":200.0,"b":200.0,"A":76.0,"sp":0.4,"Iy":2362.3,"Iz":2362.3,"Wy":225.0,"Wz":225.0}}};
+    const PROFILE_SIZES = {"IPE": ["80", "100", "120", "140", "160", "180", "200", "220", "240", "270", "300", "330", "360", "400", "450", "500"], "IPN": ["80", "100", "120", "140", "160", "180", "200", "220", "240", "280", "300"], "HEA": ["100", "120", "140", "160", "180", "200", "220", "240", "260", "280", "300", "320", "340", "360", "400", "450", "500", "550", "600", "650", "700", "800", "900", "1000"], "HEB": ["100", "120", "140", "160", "180", "200", "220", "240", "260", "280", "300", "320", "340", "360", "400", "450", "500", "550", "600", "650", "700", "800", "900", "1000"], "UPE": ["80", "100", "120", "140", "160", "180", "200", "220", "240", "270", "300", "330", "360", "400"], "UAP": ["80", "100", "130", "150", "175", "200", "220", "250", "300"], "UPN": ["80", "100", "120", "140", "160", "180", "200", "220", "240", "260", "280", "300", "320", "350", "380", "400"], "SHS": ["40x3", "40x4", "50x3", "50x4", "50x5", "60x3", "60x4", "60x5", "80x4", "80x5", "80x6", "100x4", "100x5", "100x6", "100x8", "120x5", "120x6", "120x8", "120x10", "150x5", "150x6", "150x8", "150x10", "200x6", "200x8", "200x10", "200x12", "250x8", "250x10", "250x12", "300x8", "300x10", "300x12", "300x16"], "RHS": ["50x30x3", "60x40x3", "60x40x4", "80x40x4", "80x40x5", "100x50x4", "100x50x5", "100x60x4", "100x60x5", "120x60x5", "120x60x6", "120x80x5", "120x80x6", "150x100x5", "150x100x6", "150x100x8", "200x100x6", "200x100x8", "200x120x6", "200x120x8", "250x150x8", "250x150x10", "300x200x8", "300x200x10", "300x200x12"], "CHS": ["26.9x2", "33.7x2", "33.7x3", "42.3x2", "42.3x3", "42.3x4", "48.3x2", "48.3x3", "48.3x4", "60.3x3", "60.3x4", "60.3x5", "76.1x3", "76.1x4", "76.1x5", "88.9x3", "88.9x4", "88.9x5", "88.9x6", "101.6x4", "101.6x5", "101.6x6", "114.3x4", "114.3x5", "114.3x6", "114.3x8", "139.7x5", "139.7x6", "139.7x8", "139.7x10", "168.3x5", "168.3x6", "168.3x8", "168.3x10", "168.3x12", "193.7x6", "193.7x8", "193.7x10", "193.7x12", "219.1x6", "219.1x8", "219.1x10", "219.1x12", "219.1x16", "244.5x8", "244.5x10", "244.5x12", "244.5x16", "273x8", "273x10", "273x12", "273x16", "323.9x8", "323.9x10", "323.9x12", "323.9x16"], "EA": ["25x3", "25x4", "30x3", "30x4", "35x3", "35x4", "35x5", "40x3", "40x4", "40x5", "45x4", "45x5", "45x6", "50x4", "50x5", "50x6", "55x5", "55x6", "60x5", "60x6", "60x7", "60x8", "65x6", "65x7", "65x8", "70x6", "70x7", "70x8", "75x6", "75x7", "75x8", "75x9", "75x10", "80x6", "80x7", "80x8", "80x9", "80x10", "80x12", "90x7", "90x8", "90x9", "90x10", "90x11", "90x12", "100x8", "100x9", "100x10", "100x11", "100x12", "100x14", "100x15", "110x10", "110x11", "110x12", "120x10", "120x11", "120x12", "120x13", "120x14", "120x15", "130x12", "130x13", "130x14", "150x12", "150x13", "150x14", "150x15", "150x18", "160x15", "160x17", "180x16", "180x18", "200x16", "200x18", "200x20"]};
+
+    const MATERIAL_DB = {"AG4MCH24": {"Re": 230.0, "Rm": 310.0, "E": 71000.0, "rho": 2650.0}, "AS7G06": {"Re": 220.0, "Rm": 260.0, "E": 74000.0, "rho": 2680.0}, "AU2GN": {"Re": 415.0, "Rm": 460.0, "E": 74400.0, "rho": 2760.0}, "AU5GTY23": {"Re": 395.0, "Rm": 420.0, "E": 72000.0, "rho": 2800.0}, "S235": {"Re": 235.0, "Rm": 360.0, "E": 210000.0, "rho": 7850.0}, "S275": {"Re": 275.0, "Rm": 450.0, "E": 210000.0, "rho": 7850.0}, "S355": {"Re": 355.0, "Rm": 550.0, "E": 210000.0, "rho": 7850.0}, "TA6V": {"Re": 840.0, "Rm": 910.0, "E": 111000.0, "rho": 4430.0}, "Ti": {"Re": 140.0, "Rm": 235.0, "E": 110000.0, "rho": 4507.0}, "Z2CN18-10": {"Re": 185.0, "Rm": 470.0, "E": 193000.0, "rho": 7930.0}, "304L": {"Re": 185.0, "Rm": 470.0, "E": 193000.0, "rho": 7930.0}, "316L": {"Re": 170, "Rm": 485, "E": 193000, "rho": 8000}};
+    const MATERIAL_LIST = ["S235", "S275", "S355", "304L", "316L", "AG4MCH24", "AS7G06", "AU2GN", "AU5GTY23", "TA6V", "Ti", "Z2CN18-10"];
+
+    // --- 25 familles : 7 catalogue + 18 paramétriques ---
+    const FAMILY_ORDER = [
+      "IPE","IPN","HEA","HEB","UPE","UAP","UPN",
+      "Rectangle","Carrée","Tube Rectangle","Barre Ronde","Tube Rond",
+      "Section Ovale","Section Ovale Creuse","Section en Croix",
+      "Section Rectangulaire Percée","Tube Carré 45°",
+      "I Percé","U Percé","Corniere","Corniere a 45° a ailes egales",
+      "Section Triangle","Section en I","Section en U","Sections en T"
+    ];
+
+    const GENERIC_SECTIONS = {
+      "Rectangle": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"]], defaults:[100,200],
+        calc(v){ const b=v[0],h=v[1],A=b*h,Iy=b*h*h*h/12,Iz=h*b*b*b/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,sp:2*(b+h)/1e3};}
+      },
+      "Carrée": {
+        params:[["b","b côté (mm)"]], defaults:[100],
+        calc(v){ const b=v[0],A=b*b,I=b*b*b*b/12;
+          return{h:b,b,A:A/100,Iy:I/1e4,Iz:I/1e4,Wy:I/(b/2)/1e3,Wz:I/(b/2)/1e3,sp:4*b/1e3};}
+      },
+      "Tube Rectangle": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"],["e","e épaisseur (mm)"]], defaults:[100,200,8],
+        calc(v){ const b=v[0],h=v[1],e=v[2],bi=b-2*e,hi=h-2*e;
+          const A=b*h-bi*hi,Iy=(b*h*h*h-bi*hi*hi*hi)/12,Iz=(h*b*b*b-hi*bi*bi*bi)/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,sp:2*(b+h)/1e3};}
+      },
+      "Barre Ronde": {
+        params:[["D","D diamètre (mm)"]], defaults:[50],
+        calc(v){ const D=v[0],A=Math.PI*D*D/4,I=Math.PI*D*D*D*D/64;
+          return{h:D,b:D,A:A/100,Iy:I/1e4,Iz:I/1e4,Wy:I/(D/2)/1e3,Wz:I/(D/2)/1e3,sp:Math.PI*D/1e3};}
+      },
+      "Tube Rond": {
+        params:[["D","D ext (mm)"],["d","d int (mm)"]], defaults:[50,34],
+        calc(v){ const D=v[0],d=v[1],A=Math.PI*(D*D-d*d)/4,I=Math.PI*(D*D*D*D-d*d*d*d)/64;
+          return{h:D,b:D,A:A/100,Iy:I/1e4,Iz:I/1e4,Wy:I/(D/2)/1e3,Wz:I/(D/2)/1e3,sp:Math.PI*D/1e3};}
+      },
+      "Section Ovale": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"]], defaults:[60,120],
+        calc(v){ const b=v[0],h=v[1],A=Math.PI*b*h/4,Iy=Math.PI*b*h*h*h/64,Iz=Math.PI*h*b*b*b/64;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,
+            sp:Math.PI*(3*(b+h)/2-Math.sqrt(b*h))/1e3};}
+      },
+      "Section Ovale Creuse": {
+        params:[["b","b ext (mm)"],["h","h ext (mm)"],["e","e épaisseur (mm)"]], defaults:[60,120,6],
+        calc(v){ const b=v[0],h=v[1],e=v[2],bi=b-2*e,hi=h-2*e;
+          const A=Math.PI*(b*h-bi*hi)/4,Iy=Math.PI*(b*h*h*h-bi*hi*hi*hi)/64,Iz=Math.PI*(h*b*b*b-hi*bi*bi*bi)/64;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,
+            sp:Math.PI*(3*(b+h)/2-Math.sqrt(b*h))/1e3};}
+      },
+      "Section en Croix": {
+        params:[["B","B largeur (mm)"],["H","H hauteur (mm)"],["b","b ép. vert (mm)"],["h","h ép. horiz (mm)"]], defaults:[100,200,10,10],
+        calc(v){ const B=v[0],H=v[1],bv=v[2],hh=v[3];
+          const A=hh*B+(H-hh)*bv,Iy=bv*H*H*H/12+(B-bv)*hh*hh*hh/12,Iz=hh*B*B*B/12+(H-hh)*bv*bv*bv/12;
+          return{h:H,b:B,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(H/2)/1e3,Wz:Iz/(B/2)/1e3,sp:2*(B+H)/1e3};}
+      },
+      "Section Rectangulaire Percée": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"],["e","e paroi (mm)"]], defaults:[100,200,10],
+        calc(v){ const b=v[0],h=v[1],e=v[2],bi=b-2*e,hi=h-2*e;
+          const A=b*h-bi*hi,Iy=(b*h*h*h-bi*hi*hi*hi)/12,Iz=(h*b*b*b-hi*bi*bi*bi)/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,sp:2*(b+h)/1e3};}
+      },
+      "Tube Carré 45°": {
+        params:[["b","b côté (mm)"],["e","e épaisseur (mm)"]], defaults:[100,8],
+        calc(v){ const b=v[0],e=v[1],bi=b-2*e,A=b*b-bi*bi,I=(b*b*b*b-bi*bi*bi*bi)/12;
+          const ym=b*Math.SQRT2/2;
+          return{h:b,b,A:A/100,Iy:I/1e4,Iz:I/1e4,Wy:I/ym/1e3,Wz:I/ym/1e3,sp:4*b/1e3};}
+      },
+      "I Percé": {
+        params:[["b","b semelle (mm)"],["h","h totale (mm)"],["e1","e1 semelle (mm)"],["e2","e2 âme (mm)"],["d1","d1 trou (mm)"]], defaults:[100,200,10,6,20],
+        calc(v){ const b=v[0],h=v[1],e1=v[2],e2=v[3],d1=v[4],P=Math.PI;
+          const A=2*b*e1+(h-2*e1)*e2-P*d1*d1/4;
+          const Iy=(b*h*h*h-(b-e2)*Math.pow(h-2*e1,3))/12-P*d1*d1*d1*d1/64;
+          const Iz=2*(e1*b*b*b/12)+(h-2*e1)*e2*e2*e2/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,sp:(2*b+2*h)/1e3};}
+      },
+      "U Percé": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"],["e1","e1 semelle (mm)"],["e2","e2 âme (mm)"],["d1","d1 trou (mm)"]], defaults:[80,200,10,8,20],
+        calc(v){ const b=v[0],h=v[1],e1=v[2],e2=v[3],d1=v[4],P=Math.PI;
+          const Au=2*b*e1+(h-2*e1)*e2, A=Au-P*d1*d1/4;
+          const Iy=(b*h*h*h-(b-e2)*Math.pow(h-2*e1,3))/12-P*d1*d1*d1*d1/64;
+          const zG=(b*b*e1+(h-2*e1)*e2*e2/2)/Au;
+          const Iz=2*(e1*b*b*b/12+e1*b*Math.pow(b/2-zG,2))+(h-2*e1)*e2*e2*e2/12+(h-2*e1)*e2*Math.pow(zG-e2/2,2);
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/Math.max(zG,b-zG)/1e3,sp:(2*b+2*h)/1e3};}
+      },
+      "Corniere": {
+        params:[["b","b aile (mm)"],["e","e épaisseur (mm)"]], defaults:[80,8],
+        calc(v){ const b=v[0],e=v[1],A=e*(2*b-e),c=(b*b+b*e-e*e)/(2*(2*b-e));
+          const Iy=b*e*e*e/12+b*e*Math.pow(c-e/2,2)+e*Math.pow(b-e,3)/12+e*(b-e)*Math.pow((b+e)/2-c,2);
+          const ym=Math.max(c,b-c);
+          return{h:b,b,A:A/100,Iy:Iy/1e4,Iz:Iy/1e4,Wy:Iy/ym/1e3,Wz:Iy/ym/1e3,sp:2*(2*b-e)/1e3};}
+      },
+      "Corniere a 45° a ailes egales": {
+        params:[["b","b aile (mm)"],["e","e épaisseur (mm)"]], defaults:[80,8],
+        calc(v){ const b=v[0],e=v[1],A=e*(2*b-e),c=(b*b+b*e-e*e)/(2*(2*b-e));
+          const Iy0=b*e*e*e/12+b*e*Math.pow(c-e/2,2)+e*Math.pow(b-e,3)/12+e*(b-e)*Math.pow((b+e)/2-c,2);
+          const Iyz=b*e*(b/2-c)*(e/2-c)+e*(b-e)*(e/2-c)*((b+e)/2-c);
+          const Iu=Iy0+Math.abs(Iyz),Iv=Iy0-Math.abs(Iyz);
+          const du=Math.max(c*Math.SQRT2,Math.abs(b+e-2*c)/Math.SQRT2),dv=b/Math.SQRT2;
+          return{h:b,b,A:A/100,Iy:Iu/1e4,Iz:Iv/1e4,Wy:Iu/du/1e3,Wz:Iv/dv/1e3,sp:2*(2*b-e)/1e3};}
+      },
+      "Section Triangle": {
+        params:[["b","b base (mm)"],["h","h hauteur (mm)"]], defaults:[100,200],
+        calc(v){ const b=v[0],h=v[1],A=b*h/2,Iy=b*h*h*h/36,Iz=h*b*b*b/48;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(2*h/3)/1e3,Wz:Iz/(b/2)/1e3,
+            sp:(b+2*Math.sqrt(b*b/4+h*h))/1e3};}
+      },
+      "Section en I": {
+        params:[["b","b semelle (mm)"],["h","h totale (mm)"],["e1","e1 semelle (mm)"],["e2","e2 âme (mm)"]], defaults:[100,200,10,6],
+        calc(v){ const b=v[0],h=v[1],e1=v[2],e2=v[3];
+          const A=2*b*e1+(h-2*e1)*e2,Iy=(b*h*h*h-(b-e2)*Math.pow(h-2*e1,3))/12;
+          const Iz=2*(e1*b*b*b/12)+(h-2*e1)*e2*e2*e2/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/(b/2)/1e3,sp:(2*b+2*h)/1e3};}
+      },
+      "Section en U": {
+        params:[["b","b largeur (mm)"],["h","h hauteur (mm)"],["e1","e1 semelle (mm)"],["e2","e2 âme (mm)"]], defaults:[80,200,10,8],
+        calc(v){ const b=v[0],h=v[1],e1=v[2],e2=v[3];
+          const A=2*b*e1+(h-2*e1)*e2,Iy=(b*h*h*h-(b-e2)*Math.pow(h-2*e1,3))/12;
+          const zG=(b*b*e1+(h-2*e1)*e2*e2/2)/A;
+          const Iz=2*(e1*b*b*b/12+e1*b*Math.pow(b/2-zG,2))+(h-2*e1)*e2*e2*e2/12+(h-2*e1)*e2*Math.pow(zG-e2/2,2);
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/(h/2)/1e3,Wz:Iz/Math.max(zG,b-zG)/1e3,sp:(2*b+2*h)/1e3};}
+      },
+      "Sections en T": {
+        params:[["b","b semelle (mm)"],["h","h totale (mm)"],["e1","e1 semelle (mm)"],["e2","e2 âme (mm)"]], defaults:[100,200,10,8],
+        calc(v){ const b=v[0],h=v[1],e1=v[2],e2=v[3];
+          const A=b*e1+(h-e1)*e2;
+          const yG=(b*e1*(h-e1/2)+(h-e1)*e2*(h-e1)/2)/A;
+          const Iy=b*e1*e1*e1/12+b*e1*Math.pow(h-e1/2-yG,2)+e2*Math.pow(h-e1,3)/12+e2*(h-e1)*Math.pow((h-e1)/2-yG,2);
+          const Iz=e1*b*b*b/12+(h-e1)*e2*e2*e2/12;
+          return{h,b,A:A/100,Iy:Iy/1e4,Iz:Iz/1e4,Wy:Iy/Math.max(yG,h-yG)/1e3,Wz:Iz/(b/2)/1e3,sp:(b+2*h)/1e3};}
+      }
+    };
+
+    // localStorage keys
+    const LS_SEL = "STRUCTURA_PRO_V1_SELECTION";
+    const LS_CART = "STRUCTURA_PRO_V1_CART";
+    const LS_FLEX = "STRUCTURA_PRO_V1_FLEX";
+
+    // UI refs
+    const elFamily = document.getElementById("family");
+    const elSize = document.getElementById("size");
+    const elMaterial = document.getElementById("material");
+    const elLength = document.getElementById("length");
+    const elQty = document.getElementById("qty");
+
+    const elPropsBody = document.getElementById("propsBody");
+    const elKgM = document.getElementById("kpiKgM");
+    const elKgTotal = document.getElementById("kpiKgTotal");
+    const elPaintTotal = document.getElementById("kpiPaintTotal");
+
+    // Flexion UI
+    const elFlexCase      = document.getElementById("flexCase");
+    const elFlexSpan      = document.getElementById("flexSpan");
+    const elFlexParamA    = document.getElementById("flexParamA");
+    const elFlexParamADiv = document.getElementById("flexParamADiv");
+    const elFlexParamALabel = document.getElementById("flexParamALabel");
+    const elFlexQ2        = document.getElementById("flexQ2");
+    const elFlexQ2Div     = document.getElementById("flexQ2Div");
+    const elFlexAxis      = document.getElementById("flexAxis");
+    const elFlexLoadValue = document.getElementById("flexLoadValue");
+    const elFlexLoadLabel = document.getElementById("flexLoadLabel");
+    const elFlexLoadUnit  = document.getElementById("flexLoadUnit");
+    const elFlexDeflRatio = document.getElementById("flexDeflRatio");
+    const elFlexUsecase   = document.getElementById("flexUsecase");
+    const elFlexUsecaseHelp = document.getElementById("flexUsecaseHelp");
+    const elFlexDeflFree  = document.getElementById("flexDeflFree");
+
+    const elFlexCalcMode  = document.getElementById("flexCalcMode");
+    const elFlexLoadDiv   = document.getElementById("flexLoadDiv");
+    const elFlexDeflInputDiv = document.getElementById("flexDeflInputDiv");
+    const elFlexDeflInput = document.getElementById("flexDeflInput");
+    const elFlexForceResultDiv = document.getElementById("flexForceResultDiv");
+    const elFlexForceResult = document.getElementById("flexForceResult");
+    const elFlexForceResultLabel = document.getElementById("flexForceResultLabel");
+    const elFlexForceResultUnit = document.getElementById("flexForceResultUnit");
+
+    const elFlexMmax = document.getElementById("flexMmax");
+    const elFlexMmaxLabel = document.getElementById("flexMmaxLabel");
+    const elFlexVmax = document.getElementById("flexVmax");
+    const elFlexSigma = document.getElementById("flexSigma");
+    const elFlexUtil = document.getElementById("flexUtil");
+    const elFlexDefl = document.getElementById("flexDefl");
+    const elFlexDeflOK = document.getElementById("flexDeflOK");
+    const elFlexCoefSec = document.getElementById("flexCoefSec");
+    const elFlexResOK   = document.getElementById("flexResOK");
+    const elFlexCaseImg  = document.getElementById("flexCaseImg");
+    const elSectionImg   = document.getElementById("sectionImg");
+
+    // Cart UI
+    const elCartBody    = document.getElementById("cartBody");
+    const elDecoupeBody = document.getElementById("decoupeBody");
+    const elTotalKg     = document.getElementById("totalKg");
+    const elTotalPaint  = document.getElementById("totalPaint");
+    const elCartCount   = document.getElementById("cartCount");
+    const elBarLength   = document.getElementById("barLength");
+    const elChuteAcceptable = document.getElementById("chuteAcceptable");
+    const elChantier    = document.getElementById("chantierName");
+
+    const btnAdd       = document.getElementById("btnAdd");
+    const btnReset     = document.getElementById("btnReset");
+    const btnClearCart = document.getElementById("btnClearCart");
+    const btnExport    = document.getElementById("btnExport");
+
+    const devBadge = document.getElementById("devBadge");
+
+    // Modal sécurité (V2)
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const pinInput = document.getElementById("pinInput");
+    const pinValidate = document.getElementById("pinValidate");
+    const pinError = document.getElementById("pinError");
+
+    let cart = [];
+
+    // Utils
+    function nf(value, maxDecimals=3) {
+      if (value === null || value === undefined || Number.isNaN(value)) return "—";
+      return Number(value).toLocaleString("fr-FR", {
+        maximumFractionDigits: maxDecimals,
+        minimumFractionDigits: 0
+      });
+    }
+    function nfFixed(value, decimals=2) {
+      if (value === null || value === undefined || Number.isNaN(value)) return "—";
+      return Number(value).toLocaleString("fr-FR", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+    function clampNum(val, minVal, fallback) {
+      const n = Number(val);
+      if (!Number.isFinite(n)) return fallback;
+      if (n < minVal) return minVal;
+      return n;
+    }
+
+    // ── Cas d'usage flèche (Eurocode / usuel) ──
+    const DEFL_USECASES = [
+      { key:"roof", label:"Toiture – pannes / poutres", help:"Usuel : L/200 à L/300 selon couverture.", limits:[
+        {label:"L/200", ratio:200},{label:"L/250 (souvent)", ratio:250},{label:"L/300 (strict)", ratio:300}]},
+      { key:"floor", label:"Plancher – usage courant", help:"Usuel : L/300. Vibrations à vérifier.", limits:[
+        {label:"L/250", ratio:250},{label:"L/300 (souvent)", ratio:300},{label:"L/350", ratio:350}]},
+      { key:"floor_sensitive", label:"Plancher – finitions sensibles", help:"L/400 à L/500 si finitions fragiles.", limits:[
+        {label:"L/400 (courant)", ratio:400},{label:"L/500 (strict)", ratio:500},{label:"L/600 (très strict)", ratio:600}]},
+      { key:"walkway", label:"Passerelle piétons", help:"L/300 à L/500 + vibrations.", limits:[
+        {label:"L/300", ratio:300},{label:"L/400 (courant)", ratio:400},{label:"L/500", ratio:500}]},
+      { key:"cantilever", label:"Console (auvent/balcon)", help:"L/180 à L/250.", limits:[
+        {label:"L/180", ratio:180},{label:"L/200 (courant)", ratio:200},{label:"L/250 (strict)", ratio:250}]},
+      { key:"cladding", label:"Façade / bardage", help:"L/200 à L/300 selon système.", limits:[
+        {label:"L/200", ratio:200},{label:"L/240", ratio:240},{label:"L/300", ratio:300}]},
+      { key:"glazing", label:"Vitrage / éléments fragiles", help:"L/300 à L/500 selon fabricant.", limits:[
+        {label:"L/300", ratio:300},{label:"L/400 (courant)", ratio:400},{label:"L/500 (strict)", ratio:500}]},
+      { key:"industrial", label:"Charpente industrielle", help:"L/250 à L/400.", limits:[
+        {label:"L/250", ratio:250},{label:"L/300 (souvent)", ratio:300},{label:"L/400 (strict)", ratio:400}]},
+      { key:"pipe_rack", label:"Support tuyauteries", help:"L/300 à L/400.", limits:[
+        {label:"L/300 (souvent)", ratio:300},{label:"L/360", ratio:360},{label:"L/400", ratio:400}]},
+      { key:"crane_v", label:"Pont roulant (vertical)", help:"L/600 usuel.", limits:[
+        {label:"L/500", ratio:500},{label:"L/600 (usuel)", ratio:600},{label:"L/750 (lourd)", ratio:750}]},
+      { key:"crane_h", label:"Pont roulant (horizontal)", help:"L/400 à L/600 (freinage, accélération).", limits:[
+        {label:"L/400", ratio:400},{label:"L/500 (usuel)", ratio:500},{label:"L/600 (strict)", ratio:600}]},
+      { key:"machine", label:"Support machine", help:"L/500 à L/1000 + plafond mm.", limits:[
+        {label:"L/500", ratio:500},{label:"L/800 (souvent)", ratio:800},{label:"L/1000 (très strict)", ratio:1000}]},
+      { key:"custom", label:"Personnalisé", help:"Saisir le ratio dans le champ libre →", limits:[
+        {label:"L/150", ratio:150},{label:"L/200", ratio:200},{label:"L/250", ratio:250},
+        {label:"L/300", ratio:300},{label:"L/360", ratio:360},{label:"L/400", ratio:400},
+        {label:"L/500", ratio:500},{label:"L/600", ratio:600},{label:"L/800", ratio:800},{label:"L/1000", ratio:1000}]},
+    ];
+
+    // Unités de charge — facteur de conversion vers kN (ponctuel), kN/m (linéaire), kN·m (moment)
+    const FORCE_UNITS = [
+      { key:"kN",  label_p:"kN",   label_l:"kN/m",  label_m:"kN·m",  toKN: 1 },
+      { key:"N",   label_p:"N",    label_l:"N/m",   label_m:"N·m",   toKN: 0.001 },
+      { key:"daN", label_p:"daN",  label_l:"daN/m", label_m:"daN·m", toKN: 0.01 },
+      { key:"kgf", label_p:"kgf",  label_l:"kgf/m", label_m:"kgf·m", toKN: 0.00980665 },
+      { key:"tf",  label_p:"tf",   label_l:"tf/m",  label_m:"tf·m",  toKN: 9.80665 },
+    ];
+
+    function fillDeflUsecases() {
+      elFlexUsecase.innerHTML = "";
+      for (const u of DEFL_USECASES) {
+        const o = document.createElement("option");
+        o.value = u.key;
+        o.textContent = u.label;
+        elFlexUsecase.appendChild(o);
+      }
+      elFlexUsecase.value = "floor";
+      fillDeflLimits("floor");
+    }
+
+    function fillDeflLimits(ucKey) {
+      const uc = DEFL_USECASES.find(u => u.key === ucKey);
+      if (!uc) return;
+      elFlexUsecaseHelp.textContent = uc.help;
+      elFlexDeflRatio.innerHTML = "";
+      for (const lm of uc.limits) {
+        const o = document.createElement("option");
+        o.value = String(lm.ratio);
+        o.textContent = lm.label;
+        elFlexDeflRatio.appendChild(o);
+      }
+      // Sélectionner le premier par défaut
+      elFlexDeflRatio.value = String(uc.limits[0].ratio);
+    }
+
+    function getEffectiveDeflRatio() {
+      // Le champ libre est prioritaire si rempli
+      const free = parseInt(elFlexDeflFree.value);
+      if (Number.isFinite(free) && free >= 50) return free;
+      return parseInt(elFlexDeflRatio.value) || 300;
+    }
+
+    function getSelectedProfile() {
+      const fam = elFamily.value;
+      if (GENERIC_SECTIONS[fam]) {
+        const sec = GENERIC_SECTIONS[fam];
+        const vals = sec.params.map((_, i) => {
+          const el = document.getElementById(`cdim_${i}`);
+          const v = el ? (parseFloat(el.value) || sec.defaults[i]) : sec.defaults[i];
+          return Math.max(0.1, v); // guard against zero/negative
+        });
+        const props = sec.calc(vals);
+        return { fam, size: "param.", ...props };
+      }
+      const size = elSize.value;
+      const p = (PROFILE_DB[fam] || {})[size];
+      if (!p) return null;
+      return { fam, size, ...p };
+    }
+    function getSelectedMaterial() {
+      const name = elMaterial.value;
+      const m = MATERIAL_DB[name];
+      if (!m) return null;
+      return { name, ...m };
+    }
+
+    function calcKgPerM(A_cm2, rho) {
+      return (A_cm2 * 1e-4) * rho;
+    }
+
+    function saveSelection() {
+      const fam = elFamily.value;
+      const payload = {
+        family: fam,
+        size: elSize.value,
+        material: elMaterial.value,
+        length: clampNum(elLength.value, 1, 100000) / 1000, // converti mm→m pour stockage
+        qty: Math.round(clampNum(elQty.value, 1, 1))
+      };
+      if (GENERIC_SECTIONS[fam]) {
+        payload.customDims = GENERIC_SECTIONS[fam].params.map((_, i) => {
+          const el = document.getElementById(`cdim_${i}`);
+          return el ? parseFloat(el.value) : GENERIC_SECTIONS[fam].defaults[i];
+        });
+      }
+      localStorage.setItem(LS_SEL, JSON.stringify(payload));
+    }
+    function loadSelection() {
+      try {
+        const raw = localStorage.getItem(LS_SEL);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveFlex() {
+      const payload = {
+        caseNum:   parseInt(elFlexCase.value) || 1,
+        calcMode:  parseInt(elFlexCalcMode.value) || 1,
+        span:      clampNum(elFlexSpan.value, 1, 100000), // mm
+        axis:      elFlexAxis.value,
+        paramA:    clampNum(elFlexParamA.value, 0, 0),
+        q2:        clampNum(elFlexQ2.value, 0, 0),
+        loadValue: clampNum(elFlexLoadValue.value, 0, 0),
+        loadUnit:  elFlexLoadUnit.value || "kN",
+        deflInput: clampNum(elFlexDeflInput.value, 0, 0),
+        deflUsecase: elFlexUsecase.value,
+        deflRatio: getEffectiveDeflRatio(),
+        deflFree: elFlexDeflFree.value || ""
+      };
+      localStorage.setItem(LS_FLEX, JSON.stringify(payload));
+    }
+    function loadFlex() {
+      try {
+        const raw = localStorage.getItem(LS_FLEX);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveCart() {
+      localStorage.setItem(LS_CART, JSON.stringify(cart));
+    }
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem(LS_CART);
+        if (!raw) return [];
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setOptions(select, values, selectedValue=null) {
+      select.innerHTML = "";
+      for (const v of values) {
+        const opt = document.createElement("option");
+        opt.value = String(v);
+        opt.textContent = String(v);
+        select.appendChild(opt);
+      }
+      if (selectedValue !== null && values.map(String).includes(String(selectedValue))) {
+        select.value = String(selectedValue);
+      }
+    }
+
+    function populateFamilyDropdown(selectedValue) {
+      elFamily.innerHTML = "";
+      const catGrp = document.createElement("optgroup");
+      catGrp.label = "— Profilés normalisés —";
+      const paramGrp = document.createElement("optgroup");
+      paramGrp.label = "— Sections paramétriques —";
+      for (const fam of FAMILY_ORDER) {
+        const opt = document.createElement("option");
+        opt.value = fam; opt.textContent = fam;
+        if (PROFILE_DB[fam]) catGrp.appendChild(opt);
+        else paramGrp.appendChild(opt);
+      }
+      elFamily.appendChild(catGrp);
+      elFamily.appendChild(paramGrp);
+      if (selectedValue && FAMILY_ORDER.includes(selectedValue)) elFamily.value = selectedValue;
+    }
+
+    function buildCustomDims(fam) {
+      const sec = GENERIC_SECTIONS[fam];
+      const div = document.getElementById("customDimsDiv");
+      if (!sec) { div.style.display = "none"; return; }
+      div.style.display = "";
+      div.innerHTML = '<label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Dimensions</label>' +
+        sec.params.map((p, i) =>
+          `<div style="display:inline-block;margin-right:8px;margin-bottom:4px;">
+            <label for="cdim_${i}" style="font-size:11px;color:var(--muted);">${p[1]}</label>
+            <input id="cdim_${i}" type="number" min="0.1" step="0.1" value="${sec.defaults[i]}" style="width:72px;" />
+          </div>`
+        ).join("");
+      sec.params.forEach((_, i) => {
+        document.getElementById(`cdim_${i}`).addEventListener("input", refreshAll);
+      });
+    }
+
+    function renderProps(profile) {
+      if (!profile) {
+        elPropsBody.innerHTML = `<tr><td colspan="2" class="muted">Aucune section sélectionnée.</td></tr>`;
+        return;
+      }
+      const rows = [
+        ["h (mm)", nf(profile.h, 1)],
+        ["b (mm)", nf(profile.b, 1)],
+        ["A (cm²)", nf(profile.A, 2)],
+        ["Surface peinture (m²/m)", nf(profile.sp, 3)],
+        ["Iy (cm⁴)", nf(profile.Iy, 1)],
+        ["Iz (cm⁴)", nf(profile.Iz, 1)],
+        ["Wy (cm³)", nf(profile.Wy, 1)],
+        ["Wz (cm³)", nf(profile.Wz, 1)],
+      ];
+      elPropsBody.innerHTML = rows.map(([k,v]) => `<tr><td>${k}</td><td class="mono">${v}</td></tr>`).join("");
+    }
+
+    function renderDerived(profile, material) {
+      if (!profile || !material) {
+        elKgM.textContent = "—";
+        elKgTotal.textContent = "—";
+        elPaintTotal.textContent = "—";
+        return;
+      }
+      const L = clampNum(elLength.value, 1, 100000) / 1000; // mm→m
+      const q = Math.round(clampNum(elQty.value, 1, 1));
+      const kgm = calcKgPerM(profile.A, material.rho);
+      elKgM.textContent = nfFixed(kgm, 2);
+      elKgTotal.textContent = nfFixed(kgm * L * q, 2);
+      elPaintTotal.textContent = nfFixed(profile.sp * L * q, 2);
+    }
+
+
+    // Formules analytiques — 18 cas
+    // val  : kN/m (UDL/tri) | kN (ponctuelle) | kN·m (moment)
+    // paramA : distance a (m) depuis appui gauche ou encastrement
+    // q2   : deuxième intensité pour trapèze (kN/m)
+    function calcFlexion18(caseNum, L, val, paramA, q2, I_m4, E_Pa) {
+      const EI  = E_Pa * I_m4;
+      const qN  = val * 1e3;          // kN/m  → N/m
+      const Pn  = val * 1e3;          // kN    → N
+      const M0N = val * 1e3;          // kN·m  → N·m
+      const a   = Math.min(Math.max(paramA, 0), L);
+      const b   = L - a;
+      let M_kNm = 0, V_kN = 0, defl_m = 0, mLabel = "Mmax";
+
+      switch (caseNum) {
+        case 1:  // SS + UDL
+          M_kNm  = val*L*L/8;
+          V_kN   = val*L/2;
+          defl_m = 5*qN*Math.pow(L,4)/(384*EI);
+          mLabel = "Mmax = qL²/8 (travée)";
+          break;
+        case 2:  // SS + P au centre
+          M_kNm  = val*L/4;
+          V_kN   = val/2;
+          defl_m = Pn*Math.pow(L,3)/(48*EI);
+          mLabel = "Mmax = PL/4 (travée)";
+          break;
+        case 3:  // SS + P à distance a
+          if (L > 0) {
+            M_kNm = val*a*b/L;
+            V_kN  = val*Math.max(a,b)/L;
+            const c3 = Math.min(a,b);
+            defl_m = c3>0 ? Pn*c3*Math.pow(L*L-c3*c3,1.5)/(9*Math.sqrt(3)*EI*L) : 0;
+          }
+          mLabel = `Mmax = Pab/L (a=${a.toFixed(2)} m)`;
+          break;
+        case 4:  // SS + 2P symétriques (à distance a des appuis)
+          M_kNm  = val*a;
+          V_kN   = val;
+          defl_m = Pn*a*(3*L*L-4*a*a)/(24*EI);
+          mLabel = `Mmax = Pa (entre charges, a=${a.toFixed(2)} m)`;
+          break;
+        case 5:  // SS + triangulaire 0→q (gauche→droite)
+          M_kNm  = val*L*L/(9*Math.sqrt(3));
+          V_kN   = val*L/3;
+          defl_m = 0.01304*qN*Math.pow(L,4)/EI;
+          mLabel = "Mmax = qL²/(9√3) · x≈0.577L";
+          break;
+        case 6:  // SS + triangulaire q→0
+          M_kNm  = val*L*L/(9*Math.sqrt(3));
+          V_kN   = val*L/3;
+          defl_m = 0.01304*qN*Math.pow(L,4)/EI;
+          mLabel = "Mmax = qL²/(9√3) · x≈0.423L";
+          break;
+        case 7:  // SS + trapèze q₁→q₂
+          { const q1=val, q2v=Math.max(q2,0);
+            const RA=L/6*(2*q1+q2v), RB=L/6*(q1+2*q2v);
+            V_kN  = Math.max(RA,RB);
+            const qm=(q1+q2v)/2;
+            M_kNm = qm*L*L/8;
+            defl_m= 5*qm*1e3*Math.pow(L,4)/(384*EI);
+            mLabel= "Mmax ≈ qmoy·L²/8 (approx.)";
+          }
+          break;
+        case 8:  // SS + M₀ en appui A
+          M_kNm  = val;
+          V_kN   = L>0 ? val/L : 0;
+          defl_m = M0N*L*L/(9*Math.sqrt(3)*EI);
+          mLabel = "Mmax = M₀ (en appui A)";
+          break;
+        case 9:  // SS + M₀ en appui B
+          M_kNm  = val;
+          V_kN   = L>0 ? val/L : 0;
+          defl_m = M0N*L*L/(9*Math.sqrt(3)*EI);
+          mLabel = "Mmax = M₀ (en appui B)";
+          break;
+        case 10: // Console + UDL
+          M_kNm  = val*L*L/2;
+          V_kN   = val*L;
+          defl_m = qN*Math.pow(L,4)/(8*EI);
+          mLabel = "Mmax = qL²/2 (encastrement)";
+          break;
+        case 11: // Console + P au bout libre
+          M_kNm  = val*L;
+          V_kN   = val;
+          defl_m = Pn*Math.pow(L,3)/(3*EI);
+          mLabel = "Mmax = PL (encastrement)";
+          break;
+        case 12: // Console + P à distance a de l'encastrement
+          M_kNm  = val*a;
+          V_kN   = val;
+          defl_m = Pn*a*a*(3*L-a)/(6*EI);
+          mLabel = `Mmax = Pa (encastrement, a=${a.toFixed(2)} m)`;
+          break;
+        case 13: // Console + triangulaire 0 (encastrement) → q (bout)
+          M_kNm  = val*L*L/3;
+          V_kN   = val*L/2;
+          defl_m = 11*qN*Math.pow(L,4)/(120*EI);
+          mLabel = "Mmax = qL²/3 (encastrement)";
+          break;
+        case 14: // Bi-encastrée + UDL
+          M_kNm  = val*L*L/12;
+          V_kN   = val*L/2;
+          defl_m = qN*Math.pow(L,4)/(384*EI);
+          mLabel = "Mmax = qL²/12 (appuis encastrés)";
+          break;
+        case 15: // Bi-encastrée + P au centre
+          M_kNm  = val*L/8;
+          V_kN   = val/2;
+          defl_m = Pn*Math.pow(L,3)/(192*EI);
+          mLabel = "Mmax = PL/8 (appuis = centre)";
+          break;
+        case 16: // Encastrée-appuyée + UDL
+          M_kNm  = val*L*L/8;
+          V_kN   = val*L*5/8;
+          defl_m = qN*Math.pow(L,4)/(185*EI);
+          mLabel = "Mmax = qL²/8 (encastrement)";
+          break;
+        case 17: // Encastrée-appuyée + P à L/2
+          M_kNm  = val*L*3/16;
+          V_kN   = val*11/16;
+          defl_m = 7*Pn*Math.pow(L,3)/(768*EI);
+          mLabel = "Mmax = 3PL/16 (encastrement)";
+          break;
+        case 18: // Bi-travée SS égales + UDL (portée = L par travée)
+          M_kNm  = val*L*L/8;
+          V_kN   = val*L*5/8;
+          defl_m = qN*Math.pow(L,4)/(185*EI);
+          mLabel = "Mmax = qL²/8 (appui central)";
+          break;
+        default:
+          mLabel = "Mmax";
+      }
+      return { M_kNm, V_kN, defl_m, mLabel };
+    }
+
+    // Rendu complet du bloc flexion
+    function renderFlexion(profile, material) {
+      const caseNum = parseInt(elFlexCase.value) || 1;
+      const L = clampNum(elFlexSpan.value, 1, 100000) / 1000; // portée mm→m
+
+      // Image cas de charge — mapping caseNum HTML → fichier ptr*.BMP (numérotation INFLEXION originale)
+      // Vérifié image par image : cases 5-9 (tri/trapèze/moments) absentes d'INFLEXION → pas d'image
+      const CASE_TO_PTR = {1:2, 2:1, 3:10, 4:3, 5:0, 6:0, 7:0, 8:0, 9:0, 10:7, 11:6, 12:11, 13:12, 14:5, 15:4, 16:9, 17:8, 18:18};
+      const ptrNum = CASE_TO_PTR[caseNum] || 0;
+      if (ptrNum > 0) {
+        elFlexCaseImg.src = `images/poutres/ptr${ptrNum}.png`;
+        elFlexCaseImg.style.display = "";
+      } else {
+        elFlexCaseImg.style.display = "none";
+      }
+
+      const clearResults = () => {
+        elFlexMmaxLabel.textContent = "Mmax";
+        elFlexMmax.textContent = "—"; elFlexVmax.textContent = "—";
+        elFlexSigma.textContent = "—"; elFlexUtil.textContent = "—";
+        elFlexCoefSec.textContent = "—";
+        elFlexResOK.textContent = "—"; elFlexResOK.className = "status-pill";
+        elFlexDefl.textContent = "—";
+        elFlexDeflOK.textContent = "—"; elFlexDeflOK.className = "status-pill";
+        elFlexForceResult.textContent = "—";
+      };
+
+      if (!profile || !material) { clearResults(); return; }
+
+      const mode    = parseInt(elFlexCalcMode.value) || 1;
+      const axis    = elFlexAxis.value;
+      const paramA  = clampNum(elFlexParamA.value, 0, 0) / 1000; // mm→m
+      const unitFactor = (FORCE_UNITS.find(u => u.key === elFlexLoadUnit.value) || FORCE_UNITS[0]).toKN;
+      const q2raw   = clampNum(elFlexQ2.value, 0, 0) * unitFactor;
+      const ratio   = getEffectiveDeflRatio();
+
+      const I_cm4 = (axis === "y") ? profile.Iy : profile.Iz;
+      const W_cm3 = (axis === "y") ? profile.Wy : profile.Wz;
+      const I_m4  = I_cm4 * 1e-8;
+      const W_m3  = W_cm3 * 1e-6;
+      const E_Pa  = material.E * 1e6;
+
+      // --- Calcul selon le mode ---
+      let M_kNm, V_kN, defl_m, mLabel, sigma_MPa, computedLoad;
+
+      if (mode === 1) {
+        // Mode 1 : charge donnée → contrainte + flèche
+        const val = getLoadInKN();
+        const res = calcFlexion18(caseNum, L, val, paramA, q2raw, I_m4, E_Pa);
+        M_kNm = res.M_kNm; V_kN = res.V_kN; defl_m = res.defl_m; mLabel = res.mLabel;
+        sigma_MPa = W_m3 > 0 ? (M_kNm * 1e3) / W_m3 / 1e6 : NaN;
+
+      } else if (mode === 2) {
+        // Mode 2 : flèche imposée → calculer la charge
+        const targetDefl_m = clampNum(elFlexDeflInput.value, 0, 0) / 1000; // mm→m
+        if (targetDefl_m <= 0) { clearResults(); return; }
+
+        if (caseNum === 7) {
+          // Cas 7 (trapèze) : q₂ fixe (entrée utilisateur), résoudre pour q₁
+          // Les résultats sont affines en q₁ → interpolation 2 points
+          const ref0 = calcFlexion18(7, L, 0, paramA, q2raw, I_m4, E_Pa);
+          const ref1 = calcFlexion18(7, L, 1, paramA, q2raw, I_m4, E_Pa);
+          const dDefl = ref1.defl_m - ref0.defl_m;
+          if (dDefl <= 0) { clearResults(); return; }
+          computedLoad = (targetDefl_m - ref0.defl_m) / dDefl;
+          if (computedLoad < 0) { clearResults(); return; }
+          const res = calcFlexion18(7, L, computedLoad, paramA, q2raw, I_m4, E_Pa);
+          M_kNm = res.M_kNm; V_kN = res.V_kN; defl_m = res.defl_m; mLabel = res.mLabel;
+        } else {
+          // Tous les autres cas : mise à l'échelle linéaire (charge unitaire)
+          const unitLoad = 1.0;
+          const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
+          if (ref.defl_m <= 0) { clearResults(); return; }
+          const scale = targetDefl_m / ref.defl_m;
+          computedLoad = unitLoad * scale;
+          M_kNm = ref.M_kNm * scale;
+          V_kN  = ref.V_kN * scale;
+          defl_m = targetDefl_m;
+          mLabel = ref.mLabel;
+        }
+        sigma_MPa = W_m3 > 0 ? (M_kNm * 1e3) / W_m3 / 1e6 : NaN;
+
+      } else {
+        // Mode 3 : limite élastique → force max + flèche correspondante
+        if (caseNum === 7) {
+          // Cas 7 (trapèze) : q₂ fixe, résoudre pour q₁ tel que σ = Re
+          const ref0 = calcFlexion18(7, L, 0, paramA, q2raw, I_m4, E_Pa);
+          const ref1 = calcFlexion18(7, L, 1, paramA, q2raw, I_m4, E_Pa);
+          const dM = ref1.M_kNm - ref0.M_kNm;
+          if (dM <= 0 || W_m3 <= 0) { clearResults(); return; }
+          const target_M = material.Re * W_m3 * 1e3; // kN·m à σ = Re
+          computedLoad = (target_M - ref0.M_kNm) / dM;
+          if (computedLoad < 0) { clearResults(); return; }
+          const res = calcFlexion18(7, L, computedLoad, paramA, q2raw, I_m4, E_Pa);
+          M_kNm = res.M_kNm; V_kN = res.V_kN; defl_m = res.defl_m; mLabel = res.mLabel;
+        } else {
+          // Tous les autres cas : mise à l'échelle linéaire
+          const unitLoad = 1.0;
+          const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
+          if (ref.M_kNm <= 0) { clearResults(); return; }
+          const sigma_unit = W_m3 > 0 ? (ref.M_kNm * 1e3) / W_m3 / 1e6 : 0;
+          if (sigma_unit <= 0) { clearResults(); return; }
+          const scale = material.Re / sigma_unit;
+          computedLoad = unitLoad * scale;
+          M_kNm = ref.M_kNm * scale;
+          V_kN  = ref.V_kN * scale;
+          defl_m = ref.defl_m * scale;
+          mLabel = ref.mLabel;
+        }
+        sigma_MPa = material.Re; // exactement à la limite élastique
+      }
+
+      const util      = material.Re > 0 ? sigma_MPa / material.Re : NaN;
+      const defl_mm   = defl_m * 1e3;
+      const limit_mm  = (L * 1e3) / ratio;
+      const ok        = defl_mm <= limit_mm;
+
+      // Coefficient de sécurité Re/σ
+      const coefSec   = (sigma_MPa > 0) ? material.Re / sigma_MPa : NaN;
+      const COEF_MIN  = 3.0;
+      const resOk     = Number.isFinite(coefSec) && coefSec >= COEF_MIN;
+
+      // Affichage charge calculée (modes 2 et 3)
+      if (mode !== 1 && computedLoad !== undefined) {
+        elFlexForceResult.textContent = nfFixed(computedLoad, 4);
+      } else {
+        elFlexForceResult.textContent = "—";
+      }
+
+      elFlexMmaxLabel.textContent = mLabel;
+      elFlexMmax.textContent    = nfFixed(M_kNm, 2);
+      elFlexVmax.textContent    = nfFixed(V_kN, 2);
+      elFlexSigma.textContent   = nfFixed(sigma_MPa, 1);
+      elFlexUtil.textContent    = nfFixed(util * 100, 0);
+      elFlexCoefSec.textContent = Number.isFinite(coefSec) ? nfFixed(coefSec, 2) : "—";
+      elFlexResOK.textContent   = !Number.isFinite(coefSec) ? "—"
+        : resOk ? `Conforme (coeff. ${nfFixed(coefSec,2)} ≥ ${nfFixed(COEF_MIN,1)})` : `Non conforme (coeff. ${nfFixed(coefSec,2)} < ${nfFixed(COEF_MIN,1)})`;
+      elFlexResOK.className     = !Number.isFinite(coefSec) ? "status-pill"
+        : resOk ? "status-pill status-ok" : "status-pill status-ko";
+      elFlexDefl.textContent    = nfFixed(defl_mm, 2);
+      elFlexDeflOK.textContent  = ok
+        ? `OK (≤ ${nfFixed(limit_mm,2)} mm)`
+        : `KO (> ${nfFixed(limit_mm,2)} mm)`;
+      elFlexDeflOK.className = ok ? "status-pill status-ok" : "status-pill status-ko";
+    }
+
+    function computeLine(profile, material, L, q) {
+      const kgm = calcKgPerM(profile.A, material.rho);
+      const kgTot = kgm * L * q;
+      const paintTot = profile.sp * L * q;
+      return {
+        id: String(Date.now()) + "-" + Math.random().toString(16).slice(2),
+        family: profile.fam,
+        size: profile.size,
+        material: material.name,
+        length: L,
+        qty: q,
+        kgm,
+        kgtotal: kgTot,
+        paint: paintTot
+      };
+    }
+
+    // ===================================================================
+    // Algorithme d'optimisation de découpe — J. Duprat (2002)
+    // Exploration arborescente branch-and-bound : minimise les chutes.
+    // Entrée : tableau de longueurs individuelles (mm), longueur barre (mm),
+    //          chute acceptable (mm).
+    // Sortie : tableau de barres { pieces:[], used, chute }.
+    // ===================================================================
+    function optimiseDecoupeGroupe(inputPieces, barLength, chuteAcceptable) {
+      const B = [...inputPieces].sort((a, b) => b - a); // tri décroissant
+      const bars = [];
+      const safetyBase = Math.max(B.length * B.length, 500);
+      let safetyLimit = safetyBase;
+
+      while (B.length > 0) {
+        const ligneFin = B.length - 1;
+        const TSol = new Array(B.length + 2).fill(0);
+        TSol[1] = 0;
+
+        // Un seul morceau restant
+        if (ligneFin === 0) {
+          bars.push({ pieces: [B[0]], used: B[0], chute: barLength - B[0] });
+          B.splice(0, 1);
+          continue;
+        }
+
+        const premier = B[0];
+        const dernierMorceau = B[ligneFin];
+
+        // Le plus grand + le plus petit dépasse la barre → premier seul
+        if (premier + dernierMorceau > barLength) {
+          bars.push({ pieces: [premier], used: premier, chute: barLength - premier });
+          B.splice(0, 1);
+          continue;
+        }
+
+        // --- Exploration arborescente ---
+        let ligne = 0, TOTAL = premier, ancienneChute = barLength + 1;
+        let noeud = 1, noeudSol = 1, indic = 0, morceau = premier, CHUTE = 0;
+        const TNoeud = new Array(B.length + 2).fill(0);
+        const TTOT   = new Array(B.length + 2).fill(0);
+        TNoeud[1] = 0; TTOT[1] = TOTAL;
+        let safety = 0;
+
+        let state = "NIV22";
+        while (state !== "DONE") {
+          if (++safety > safetyLimit) { safetyLimit *= 2; state = "DONE"; break; }
+
+          switch (state) {
+
+            // NIV22 — Scan glouton avant
+            case "NIV22":
+              if (ligne >= ligneFin) { state = "NIV225"; break; }
+              ligne++;
+              morceau = B[ligne];
+              CHUTE = barLength - TOTAL - morceau;
+              if (CHUTE < 0) break; // ne rentre pas → prochain
+              noeud++; TNoeud[noeud] = ligne;
+              TOTAL += morceau; TTOT[noeud] = TOTAL;
+              if (CHUTE >= dernierMorceau) break; // encore de la place
+              state = "NIV225"; break;
+
+            // NIV225 — Évaluation du résultat courant
+            case "NIV225":
+              if (CHUTE < 0) { CHUTE = barLength - TTOT[noeud]; indic = 1; }
+              if (CHUTE < ancienneChute) {
+                for (let i = 1; i <= noeud; i++) TSol[i] = TNoeud[i];
+                noeudSol = noeud; ancienneChute = CHUTE;
+              }
+              if (CHUTE <= chuteAcceptable) { state = "DONE"; break; }
+              // Peut-on continuer le scan ?
+              if (ligne < ligneFin - 1 && morceau > dernierMorceau) {
+                indic = 0; state = "NIV22"; break;
+              }
+              if (indic === 1) { noeud++; indic = 0; }
+              TNoeud[noeud] = ligneFin;
+              state = "NIV23"; break;
+
+            // NIV23 — Backtracking dans l'arbre de nœuds
+            case "NIV23":
+              if (noeud <= 2) { state = "DONE"; break; }
+              { const lnm1 = TNoeud[noeud - 1];
+                ligne = TNoeud[noeud];
+                if (ligne - lnm1 === 1) { noeud--; break; } // consécutifs, pas de gap
+                morceau = B[lnm1];
+                if (morceau === B[ligne - 1]) { noeud--; break; } // même valeur
+                // Gap avec valeur différente → explorer
+                noeud -= 2; ligne = lnm1;
+                state = "NIV24";
+              } break;
+
+            // NIV24 — Avancer au-delà du groupe de même valeur
+            case "NIV24":
+              if (ligne + 1 <= ligneFin && B[ligne + 1] === morceau) { ligne++; break; }
+              TOTAL = TTOT[noeud];
+              state = "NIV22"; break;
+          }
+        }
+
+        // Report : collecter les pièces de la solution, retirer de B
+        const solPieces = [], solIdx = [];
+        for (let i = 1; i <= noeudSol; i++) { solIdx.push(TSol[i]); solPieces.push(B[TSol[i]]); }
+        const used = solPieces.reduce((s, v) => s + v, 0);
+        bars.push({ pieces: solPieces, used, chute: barLength - used });
+        solIdx.sort((a, b) => b - a);
+        for (const idx of solIdx) B.splice(idx, 1);
+      }
+      return bars;
+    }
+
+    // Calcule le récap découpe barres groupé par (famille+taille+matériau)
+    // Utilise l'algorithme d'optimisation Duprat pour chaque groupe.
+    function calcDecoupe() {
+      const barL_mm = clampNum(elBarLength.value, 1, 100000) || 6000;
+      const chute_mm = clampNum(elChuteAcceptable.value, 0, barL_mm / 2) || 50;
+      const groups = {};
+      cart.forEach(it => {
+        const key = `${it.family}||${it.size}||${it.material}`;
+        if (!groups[key]) groups[key] = { family: it.family, size: it.size, material: it.material, items: [] };
+        groups[key].items.push({ length_mm: Math.round((Number(it.length) || 0) * 1000), qty: Number(it.qty) || 1 });
+      });
+      return Object.values(groups).map(g => {
+        // Expansion quantités → pièces individuelles
+        const pieces = [];
+        g.items.forEach(item => { for (let i = 0; i < item.qty; i++) pieces.push(item.length_mm); });
+        const bars = optimiseDecoupeGroupe(pieces, barL_mm, chute_mm);
+        const totalBars = bars.length;
+        const totalChute = bars.reduce((s, b) => s + b.chute, 0);
+        const totalUsed  = bars.reduce((s, b) => s + b.used, 0);
+        return {
+          family: g.family, size: g.size, material: g.material,
+          nbPieces: pieces.length, barL_mm, bars, totalBars,
+          totalChute_mm: totalChute, totalUsed_mm: totalUsed,
+          rendement: totalBars > 0 ? (totalUsed / (totalBars * barL_mm) * 100) : 0
+        };
+      });
+    }
+
+    function renderCart() {
+      if (!cart.length) {
+        elCartBody.innerHTML = `<tr><td colspan="9" class="muted">Panier vide.</td></tr>`;
+        elDecoupeBody.innerHTML = `<tr><td colspan="4" class="muted" style="text-align:center;padding:8px;">Panier vide</td></tr>`;
+      } else {
+        elCartBody.innerHTML = cart.map(item => `
+          <tr>
+            <td>${item.family}</td>
+            <td>${item.size}</td>
+            <td>${item.material}</td>
+            <td class="mono">${nfFixed(item.length, 2)}</td>
+            <td class="mono">${item.qty}</td>
+            <td class="mono">${nfFixed(item.kgm, 2)}</td>
+            <td class="mono">${nfFixed(item.kgtotal, 2)}</td>
+            <td class="mono">${nfFixed(item.paint, 2)}</td>
+            <td style="text-align:right;">
+              <button class="icon-btn" title="Supprimer" aria-label="Supprimer" data-id="${item.id}">🗑</button>
+            </td>
+          </tr>
+        `).join("");
+
+        const decoupe = calcDecoupe();
+        let html = "";
+        decoupe.forEach(g => {
+          // En-tête du groupe
+          html += `<tr style="background:rgba(211,34,42,0.12);">
+            <td colspan="4" style="font-weight:700;padding:6px 8px;">
+              ${g.family} ${g.size} — ${g.material}
+              <span class="muted" style="font-weight:400;margin-left:10px;">
+                ${g.nbPieces} morceaux &rarr; <span style="color:var(--orange);font-weight:700;">${g.totalBars} barre${g.totalBars>1?"s":""}</span>
+                &nbsp;|&nbsp; Chute totale : ${g.totalChute_mm} mm
+                &nbsp;|&nbsp; Rendement : ${g.rendement.toFixed(1)}%
+              </span>
+            </td>
+          </tr>`;
+          // Détail par barre
+          g.bars.forEach((bar, i) => {
+            const chuteColor = bar.chute <= 50 ? "var(--ok)" : bar.chute <= 200 ? "var(--warn)" : "var(--danger)";
+            html += `<tr>
+              <td class="mono" style="text-align:center;">${i + 1}</td>
+              <td>${bar.pieces.join(" + ")}</td>
+              <td class="mono" style="font-weight:600;">${bar.used}</td>
+              <td class="mono" style="color:${chuteColor};font-weight:600;">${bar.chute}</td>
+            </tr>`;
+          });
+        });
+        elDecoupeBody.innerHTML = html;
+      }
+
+      const totalKg    = cart.reduce((s,it) => s + (Number(it.kgtotal)||0), 0);
+      const totalPaint = cart.reduce((s,it) => s + (Number(it.paint)||0), 0);
+      elTotalKg.textContent    = nfFixed(totalKg, 2);
+      elTotalPaint.textContent = nfFixed(totalPaint, 2);
+      elCartCount.textContent  = cart.length + (cart.length > 1 ? " lignes" : " ligne");
+
+      elCartBody.querySelectorAll("button[data-id]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-id");
+          cart = cart.filter(x => x.id !== id);
+          saveCart();
+          renderCart();
+        });
+      });
+    }
+
+    // Export Excel — format SpreadsheetML (s'ouvre dans Excel avec mise en forme)
+    function exportExcel() {
+      const stamp  = new Date();
+      const dateFR = stamp.toLocaleString("fr-FR");
+      const chantier = (elChantier.value || "").trim() || "—";
+      const barL_mm = clampNum(elBarLength.value, 1, 100000) || 6000;
+      const chute_mm = clampNum(elChuteAcceptable.value, 0, barL_mm / 2) || 50;
+      const decoupe = calcDecoupe();
+
+      function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+      function cell(v, style="") {
+        const isNum = typeof v === "number";
+        return `<Cell${style?` ss:StyleID="${style}"`:""}><Data ss:Type="${isNum?"Number":"String"}">${esc(isNum?v:String(v))}</Data></Cell>`;
+      }
+      function row(...cells) { return `<Row>${cells.join("")}</Row>`; }
+
+      const totalKg    = cart.reduce((s,it) => s + (Number(it.kgtotal)||0), 0);
+      const totalPaint = cart.reduce((s,it) => s + (Number(it.paint)||0), 0);
+
+      // Feuille 1 — Panier
+      const cartRows = cart.map(it => row(
+        cell(it.family), cell(it.size), cell(it.material),
+        cell(Number(it.length),"num2"), cell(it.qty,"num0"),
+        cell(Number(it.kgm),"num2"), cell(Number(it.kgtotal),"num2"), cell(Number(it.paint),"num2")
+      )).join("\n");
+
+      // Feuille 2 — Découpe détaillée (algorithme Duprat)
+      let decoupeRows = "";
+      decoupe.forEach(g => {
+        // En-tête du groupe
+        decoupeRows += row(`<Cell ss:MergeAcross="3" ss:StyleID="grp"><Data ss:Type="String">${esc(g.family)} ${esc(g.size)} — ${esc(g.material)}    (${g.nbPieces} morceaux → ${g.totalBars} barres, chute ${g.totalChute_mm} mm, rendement ${g.rendement.toFixed(1)}%)</Data></Cell>`) + "\n";
+        // En-tête colonnes
+        decoupeRows += row(cell("Barre","hdr2"),cell("Morceaux (mm)","hdr2"),cell("Utilisé (mm)","hdr2"),cell("Chute (mm)","hdr2")) + "\n";
+        // Détail par barre
+        g.bars.forEach((bar, i) => {
+          decoupeRows += row(cell(i + 1,"num0"), cell(bar.pieces.join(" + ")), cell(bar.used,"num0"), cell(bar.chute,"num0")) + "\n";
+        });
+        // Ligne résumé du groupe
+        decoupeRows += row(cell("TOTAL","tot"), cell(g.nbPieces + " morceaux","tot"),
+          cell(g.totalUsed_mm,"tot2"), cell(g.totalChute_mm,"tot2")) + "\n";
+        decoupeRows += "<Row/>\n";
+      });
+
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:x="urn:schemas-microsoft-com:office:excel">
+<Styles>
+  <Style ss:ID="title">
+    <Font ss:Bold="1" ss:Size="14" ss:Color="#FFFFFF"/>
+    <Interior ss:Color="#D3222A" ss:Pattern="Solid"/>
+    <Alignment ss:Horizontal="Left"/>
+  </Style>
+  <Style ss:ID="meta">
+    <Font ss:Italic="1" ss:Color="#888888" ss:Size="10"/>
+  </Style>
+  <Style ss:ID="hdr">
+    <Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="10"/>
+    <Interior ss:Color="#D3222A" ss:Pattern="Solid"/>
+    <Alignment ss:Horizontal="Center"/>
+    <Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#FFFFFF"/></Borders>
+  </Style>
+  <Style ss:ID="hdr2">
+    <Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="10"/>
+    <Interior ss:Color="#FF8A1F" ss:Pattern="Solid"/>
+    <Alignment ss:Horizontal="Center"/>
+  </Style>
+  <Style ss:ID="tot">
+    <Font ss:Bold="1"/>
+    <Interior ss:Color="#FFF3CD" ss:Pattern="Solid"/>
+    <Borders><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#D3222A"/></Borders>
+  </Style>
+  <Style ss:ID="tot2">
+    <Font ss:Bold="1"/>
+    <Interior ss:Color="#FFF3CD" ss:Pattern="Solid"/>
+    <Borders><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#D3222A"/></Borders>
+    <NumberFormat ss:Format="0.00"/>
+  </Style>
+  <Style ss:ID="grp">
+    <Font ss:Bold="1" ss:Size="11" ss:Color="#FFFFFF"/>
+    <Interior ss:Color="#444444" ss:Pattern="Solid"/>
+    <Alignment ss:Horizontal="Left"/>
+  </Style>
+  <Style ss:ID="num0"><NumberFormat ss:Format="0"/></Style>
+  <Style ss:ID="num1"><NumberFormat ss:Format="0.0"/></Style>
+  <Style ss:ID="num2"><NumberFormat ss:Format="0.00"/></Style>
+  <Style ss:ID="num3"><NumberFormat ss:Format="0.000"/></Style>
+</Styles>
+
+<Worksheet ss:Name="Panier">
+<Table ss:DefaultColumnWidth="80">
+  <Column ss:Width="70"/><Column ss:Width="60"/><Column ss:Width="70"/>
+  <Column ss:Width="60"/><Column ss:Width="45"/><Column ss:Width="60"/>
+  <Column ss:Width="70"/><Column ss:Width="80"/>
+  ${row(`<Cell ss:MergeAcross="7" ss:StyleID="title"><Data ss:Type="String">STRUCTURA PRO — Panier profilés</Data></Cell>`)}
+  ${row(`<Cell ss:MergeAcross="7" ss:StyleID="meta"><Data ss:Type="String">Chantier : ${esc(chantier)}    Export : ${esc(dateFR)}</Data></Cell>`)}
+  <Row/>
+  ${row(cell("Famille","hdr"),cell("Taille","hdr"),cell("Matériau","hdr"),
+        cell("L (m)","hdr"),cell("Qté","hdr"),cell("kg/m","hdr"),
+        cell("kg total","hdr"),cell("m² peinture","hdr"))}
+  ${cartRows}
+  ${row(cell("TOTAL","tot"),cell("","tot"),cell("","tot"),cell("","tot"),cell("","tot"),cell("","tot"),
+        cell(totalKg,"tot2"),cell(totalPaint,"tot2"))}
+</Table>
+</Worksheet>
+
+<Worksheet ss:Name="Découpe barres">
+<Table ss:DefaultColumnWidth="90">
+  <Column ss:Width="55"/><Column ss:Width="220"/><Column ss:Width="80"/><Column ss:Width="80"/>
+  ${row(`<Cell ss:MergeAcross="3" ss:StyleID="title"><Data ss:Type="String">STRUCTURA PRO — Optimisation découpe barres</Data></Cell>`)}
+  ${row(`<Cell ss:MergeAcross="3" ss:StyleID="meta"><Data ss:Type="String">Chantier : ${esc(chantier)}    Barre : ${barL_mm} mm    Chute acceptable : ${chute_mm} mm    Export : ${esc(dateFR)}</Data></Cell>`)}
+  <Row/>
+  ${decoupeRows}
+</Table>
+</Worksheet>
+</Workbook>`;
+
+      const blob = new Blob([xml], { type: "application/vnd.ms-excel;charset=utf-8" });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      const yyyy = stamp.getFullYear();
+      const mo   = String(stamp.getMonth()+1).padStart(2,"0");
+      const dd   = String(stamp.getDate()).padStart(2,"0");
+      const hh   = String(stamp.getHours()).padStart(2,"0");
+      const mi   = String(stamp.getMinutes()).padStart(2,"0");
+      a.href     = url;
+      a.download = `STRUCTURA_PRO_${yyyy}${mo}${dd}_${hh}${mi}.xls`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // Security prep (V2) - neutralisée en V1 (DEV_MODE = true)
+    async function sha256Hex(text) {
+      const enc = new TextEncoder();
+      const data = enc.encode(text);
+      const hash = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+    const PIN_HASH_PLACEHOLDER = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // "1234"
+
+    function openModal() {
+      modalBackdrop.style.display = "flex";
+      pinInput.value = "";
+      pinError.style.display = "none";
+      setTimeout(() => pinInput.focus(), 50);
+    }
+    function blockApp() { openModal(); }
+    async function validatePin() {
+      const pin = (pinInput.value || "").trim();
+      const hx = await sha256Hex(pin);
+      const ok = (hx === PIN_HASH_PLACEHOLDER);
+      pinError.style.display = ok ? "none" : "block";
+      if (ok) modalBackdrop.style.display = "none";
+    }
+
+    function refreshAll() {
+      const profile = getSelectedProfile();
+      const material = getSelectedMaterial();
+
+      renderProps(profile);
+      renderDerived(profile, material);
+      renderFlexion(profile, material);
+      saveFlex();
+      saveSelection();
+    }
+
+    function updateSectionImg() {
+      const fam = elFamily.value;
+      const imgName = fam;
+      elSectionImg.src = `images/sections/Sections%20avec%20Noms/${encodeURIComponent(imgName)}.png`;
+      elSectionImg.style.display = "";
+      elSectionImg.onerror = () => { elSectionImg.style.display = "none"; };
+    }
+
+    function onFamilyChange() {
+      const fam = elFamily.value;
+      const sizeDiv = document.getElementById("sizeDiv");
+      const customDiv = document.getElementById("customDimsDiv");
+      if (GENERIC_SECTIONS[fam]) {
+        sizeDiv.style.display = "none";
+        buildCustomDims(fam);
+      } else {
+        sizeDiv.style.display = "";
+        customDiv.style.display = "none";
+        const sizes = PROFILE_SIZES[fam] || [];
+        const saved = loadSelection();
+        const wantedSize = (saved && saved.size) ? saved.size : sizes[0];
+        setOptions(elSize, sizes, wantedSize);
+      }
+      updateSectionImg();
+      refreshAll();
+    }
+
+    function getLoadType(caseNum) {
+      if ([8,9].includes(caseNum)) return "m"; // moment
+      if ([1,5,6,7,10,13,14,16,18].includes(caseNum)) return "l"; // linéaire
+      return "p"; // ponctuelle
+    }
+
+    function fillLoadUnits(loadType) {
+      const prev = elFlexLoadUnit.value;
+      elFlexLoadUnit.innerHTML = "";
+      for (const u of FORCE_UNITS) {
+        const opt = document.createElement("option");
+        opt.value = u.key;
+        opt.textContent = loadType === "m" ? u.label_m : loadType === "l" ? u.label_l : u.label_p;
+        elFlexLoadUnit.appendChild(opt);
+      }
+      // garder l'unité précédente si possible
+      if (FORCE_UNITS.find(u => u.key === prev)) elFlexLoadUnit.value = prev;
+      else elFlexLoadUnit.value = "kN";
+    }
+
+    function getLoadInKN() {
+      const raw = clampNum(elFlexLoadValue.value, 0, 0);
+      const u = FORCE_UNITS.find(u => u.key === elFlexLoadUnit.value) || FORCE_UNITS[0];
+      return raw * u.toKN;
+    }
+
+    function updateCalcModeUI() {
+      const mode = parseInt(elFlexCalcMode.value) || 1;
+      // Mode 1: charge → contrainte+flèche (standard)
+      // Mode 2: flèche imposée → force+contrainte
+      // Mode 3: limite élastique → force max+flèche
+      elFlexLoadDiv.style.display       = (mode === 1) ? "" : "none";
+      elFlexDeflInputDiv.style.display  = (mode === 2) ? "" : "none";
+      elFlexForceResultDiv.style.display = (mode === 1) ? "none" : "";
+      // Adapter le label du résultat force
+      const lt = getLoadType(parseInt(elFlexCase.value) || 1);
+      if (lt === "m") {
+        elFlexForceResultLabel.textContent = "Moment calculé";
+        elFlexForceResultUnit.textContent = "kN·m";
+      } else if (lt === "l") {
+        elFlexForceResultLabel.textContent = "Charge linéaire calculée";
+        elFlexForceResultUnit.textContent = "kN/m";
+      } else {
+        elFlexForceResultLabel.textContent = "Charge calculée";
+        elFlexForceResultUnit.textContent = "kN";
+      }
+    }
+
+    function updateFlexInputs() {
+      const c = parseInt(elFlexCase.value) || 1;
+      // Champs conditionnels
+      elFlexParamADiv.style.display = [3,4,12].includes(c) ? "" : "none";
+      elFlexQ2Div.style.display     = (c === 7) ? "" : "none";
+      // Unités de charge
+      const lt = getLoadType(c);
+      fillLoadUnits(lt);
+      if (lt === "m")      elFlexLoadLabel.textContent = "Moment M₀";
+      else if (lt === "l") elFlexLoadLabel.textContent = "Charge linéaire";
+      else                 elFlexLoadLabel.textContent = "Charge ponctuelle";
+      // Libellé distance a (mm)
+      if (c === 4)       elFlexParamALabel.textContent = "Distance a (mm) — depuis chaque appui";
+      else if (c === 12) elFlexParamALabel.textContent = "Distance a depuis encastrement (mm)";
+      else               elFlexParamALabel.textContent = "Distance a depuis appui gauche (mm)";
+      // Mettre à jour les labels du résultat force selon type de charge
+      updateCalcModeUI();
+    }
+
+    function setDefaults() {
+      const defaultFamily = "IPE";
+      const defaultMaterial = MATERIAL_LIST.includes("S235") ? "S235" : (MATERIAL_LIST[0] || "");
+      elLength.value = "6000";
+      elQty.value = "1";
+
+      populateFamilyDropdown(defaultFamily);
+
+      document.getElementById("sizeDiv").style.display = "";
+      document.getElementById("customDimsDiv").style.display = "none";
+      const sizes = PROFILE_SIZES[elFamily.value] || [];
+      setOptions(elSize, sizes, sizes[0] || "");
+
+      setOptions(elMaterial, MATERIAL_LIST, defaultMaterial);
+
+      // Flex defaults
+      elFlexCase.value       = "1";
+      elFlexCalcMode.value   = "1";
+      elFlexSpan.value       = elLength.value;
+      elFlexAxis.value       = "y";
+      elFlexParamA.value     = "1000"; // mm
+      elFlexQ2.value         = "0.50";
+      elFlexLoadValue.value  = "1.00";
+      elFlexDeflInput.value  = "";
+      fillDeflUsecases();
+      elFlexDeflFree.value   = "";
+      updateFlexInputs();
+      updateSectionImg();
+
+      refreshAll();
+    }
+
+    function restoreFromStorage() {
+      const sel = loadSelection();
+      const fam0 = "IPE";
+      populateFamilyDropdown((sel && FAMILY_ORDER.includes(sel.family)) ? sel.family : fam0);
+
+      if (GENERIC_SECTIONS[elFamily.value]) {
+        document.getElementById("sizeDiv").style.display = "none";
+        buildCustomDims(elFamily.value);
+        if (sel && sel.customDims) {
+          const sec = GENERIC_SECTIONS[elFamily.value];
+          sec.params.forEach((_, i) => {
+            const el = document.getElementById(`cdim_${i}`);
+            if (el && sel.customDims[i] !== undefined) el.value = sel.customDims[i];
+          });
+        }
+      } else {
+        document.getElementById("sizeDiv").style.display = "";
+        document.getElementById("customDimsDiv").style.display = "none";
+        const sizes = PROFILE_SIZES[elFamily.value] || [];
+        setOptions(elSize, sizes, sel ? sel.size : null);
+      }
+
+      setOptions(elMaterial, MATERIAL_LIST, sel ? sel.material : null);
+
+      const len = sel ? sel.length : 6.0;
+      const qty = sel ? sel.qty : 1;
+      elLength.value = String(Math.round(clampNum(len, 0.001, 1000) * 1000)); // m stocké → mm affiché
+      elQty.value = String(Math.round(clampNum(qty, 1, 1)));
+
+      const flex = loadFlex();
+      if (flex) {
+        elFlexCase.value      = String(flex.caseNum || 1);
+        elFlexCalcMode.value  = String(flex.calcMode || 1);
+        { let sp = clampNum(flex.span, 0, 100000); if(sp < 50) sp = Math.round(sp*1000); elFlexSpan.value = String(Math.round(sp)); } // migration m→mm
+        elFlexAxis.value      = flex.axis || "y";
+        { let pa = clampNum(flex.paramA, 0, 0); if(pa > 0 && pa < 20) pa = Math.round(pa*1000); elFlexParamA.value = String(Math.round(pa)); } // migration m→mm
+        elFlexQ2.value        = nfFixed(clampNum(flex.q2, 0, 0), 2).replace(" ","");
+        elFlexLoadValue.value = nfFixed(clampNum(flex.loadValue, 0, 0), 2).replace(" ","");
+        if (flex.loadUnit && FORCE_UNITS.find(u => u.key === flex.loadUnit)) elFlexLoadUnit.value = flex.loadUnit;
+        if (flex.deflInput > 0) elFlexDeflInput.value = nfFixed(flex.deflInput, 2).replace(/\s/g,"");
+        // Restaurer usecase + ratio + free
+        fillDeflUsecases();
+        if (flex.deflUsecase) {
+          elFlexUsecase.value = flex.deflUsecase;
+          fillDeflLimits(flex.deflUsecase);
+        }
+        if (flex.deflRatio) elFlexDeflRatio.value = String(flex.deflRatio);
+        elFlexDeflFree.value = flex.deflFree || "";
+      } else {
+        elFlexCase.value      = "1";
+        elFlexCalcMode.value  = "1";
+        elFlexSpan.value      = elLength.value; // mm
+        elFlexAxis.value      = "y";
+        elFlexParamA.value    = "1000"; // mm
+        elFlexQ2.value        = "0.50";
+        elFlexLoadValue.value = "1.00";
+        elFlexDeflInput.value = "";
+        fillDeflUsecases();
+        elFlexDeflFree.value  = "";
+      }
+
+      updateFlexInputs();
+      updateSectionImg();
+      refreshAll();
+    }
+
+    function init() {
+      if (DEV_MODE) devBadge.style.display = "inline-flex";
+      if (!DEV_MODE) blockApp();
+
+      restoreFromStorage();
+
+      cart = loadCart();
+      renderCart();
+
+      elFamily.addEventListener("change", onFamilyChange);
+      elSize.addEventListener("change", refreshAll);
+      elMaterial.addEventListener("change", refreshAll);
+
+      elLength.addEventListener("input", () => {
+        // si la portée = longueur, on la suit automatiquement
+        const Lsel_mm = clampNum(elLength.value, 1, 100000);
+        const Lflex_mm = clampNum(elFlexSpan.value, 1, 100000);
+        if (Math.abs(Lflex_mm - Lsel_mm) < 0.5) {
+          elFlexSpan.value = String(Math.round(Lsel_mm));
+        }
+        refreshAll();
+      });
+      elQty.addEventListener("input", refreshAll);
+
+      // Flex events
+      elFlexCalcMode.addEventListener("change", () => { updateCalcModeUI(); refreshAll(); });
+      elFlexDeflInput.addEventListener("input", refreshAll);
+      elFlexCase.addEventListener("change", () => { updateFlexInputs(); refreshAll(); });
+      elFlexSpan.addEventListener("input", refreshAll);
+      elFlexAxis.addEventListener("change", refreshAll);
+      elFlexParamA.addEventListener("input", refreshAll);
+      elFlexQ2.addEventListener("input", refreshAll);
+      elFlexLoadValue.addEventListener("input", refreshAll);
+      elFlexLoadUnit.addEventListener("change", refreshAll);
+      elFlexDeflRatio.addEventListener("change", refreshAll);
+      elFlexDeflFree.addEventListener("input", refreshAll);
+      elFlexUsecase.addEventListener("change", () => {
+        fillDeflLimits(elFlexUsecase.value);
+        refreshAll();
+      });
+
+      btnAdd.addEventListener("click", () => {
+        const profile = getSelectedProfile();
+        const material = getSelectedMaterial();
+        if (!profile || !material) return;
+
+        const L = clampNum(elLength.value, 1, 100000) / 1000; // mm→m
+        const q = Math.round(clampNum(elQty.value, 1, 1));
+        elLength.value = String(Math.round(L * 1000)); // remettre en mm
+        elQty.value = String(q);
+
+        const line = computeLine(profile, material, L, q);
+        cart.push(line);
+        saveCart();
+        renderCart();
+      });
+
+      btnReset.addEventListener("click", setDefaults);
+
+      btnClearCart.addEventListener("click", () => {
+        cart = [];
+        localStorage.removeItem(LS_CART);
+        renderCart();
+      });
+
+      btnExport.addEventListener("click", exportExcel);
+      elBarLength.addEventListener("input", renderCart);
+      elChuteAcceptable.addEventListener("input", renderCart);
+
+      pinValidate.addEventListener("click", validatePin);
+      pinInput.addEventListener("keydown", (e) => { if (e.key === "Enter") validatePin(); });
+    }
+
+    init();
+  </script>
+
+  <!-- PWA : enregistrement du Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('[PWA] Service Worker enregistré, scope:', reg.scope))
+          .catch(err => console.warn('[PWA] Échec enregistrement SW:', err));
+      });
+    }
+  </script>
+</body>
+</html>
