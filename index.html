@@ -3,16 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>STRUCTURA PRO — HTML V2.7 (Flexion)</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#d3222a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Structura PRO">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-
+  <title>STRUCTURA PRO — HTML V2.8 (Flexion)</title>
   <style>
     :root {
       --bg: #0f1115;
@@ -517,9 +508,11 @@
            onerror="this.style.display='none'" />
       <div class="title-wrap" style="flex:1;">
         <h1 class="title">STRUCTURA PRO</h1>
-        <p class="subtitle">Logiciel de calcul — Flexion · Sections · Optimisation découpe — V2.7</p>
+        <p class="subtitle">Logiciel de calcul — Flexion · Sections · Optimisation découpe — V2.8</p>
       </div>
       <div class="badges">
+        <span id="devBadge" class="badge dev" style="display:none">DEV</span>
+        <span class="badge">Offline · 1 fichier</span>
       </div>
     </div>
 
@@ -617,11 +610,11 @@
                     <option value="2">02 · SS — Charge ponctuelle P au centre</option>
                     <option value="3">03 · SS — Charge ponctuelle P à distance a</option>
                     <option value="4">04 · SS — Deux charges P symétriques (à ±a)</option>
-                    <option value="5">05 · SS — Triangulaire (0→q gauche→droite)</option>
-                    <option value="6">06 · SS — Triangulaire (q→0 gauche→droite)</option>
-                    <option value="7">07 · SS — Trapézoïdale (q₁ gauche → q₂ droite)</option>
-                    <option value="8">08 · SS — Moment M₀ en appui A (gauche)</option>
-                    <option value="9">09 · SS — Moment M₀ en appui B (droite)</option>
+                    <option value="5">05 · Bi-encastrée — Charge P à distance a</option>
+                    <option value="6">06 · Porte-à-faux — Charge P en bout (a=console)</option>
+                    <option value="7">07 · 2 consoles — 2P aux bouts libres (a=console)</option>
+                    <option value="8">08 · 3 travées égales — Charge uniforme q (L=par travée)</option>
+                    <option value="9">09 · 2 travées — 2P en milieu de chaque travée (L=par travée)</option>
                   </optgroup>
                   <optgroup label="— Console encastrée-libre (4 cas) —">
                     <option value="10">10 · Console — Charge uniforme q</option>
@@ -809,13 +802,13 @@
 
             <div class="cart-actions">
               <button id="btnClearCart" class="btn-danger">Vider le panier</button>
-              <!-- Export Excel désactivé sur version mobile -->
-              <button id="btnExport" class="btn-primary" style="display:none">Exporter Excel</button>
+              <button id="btnExport" class="btn-primary">Exporter Excel</button>
               <button onclick="window.print()" class="btn-secondary">🖨 Imprimer</button>
             </div>
 
             <div class="hint">
-              Optimisation découpe : minimise les chutes par exploration arborescente.
+              Export Excel (SpreadsheetML) : s'ouvre directement dans Excel avec mise en forme et chantier.
+              Optimisation découpe minimise les chutes par exploration arborescente.
               Longueur barre et chute acceptable réglables. Détail par barre avec rendement.
             </div>
           </div>
@@ -845,7 +838,7 @@
 
   <script>
     /***********************
-     * STRUCTURA PRO — HTML V2.7 (offline, 1 fichier)
+     * STRUCTURA PRO — HTML V2.8 (offline, 1 fichier)
      * Ajout : bloc flexion simple (pré-check)
      ***********************/
 
@@ -1388,39 +1381,44 @@
           defl_m = Pn*a*(3*L*L-4*a*a)/(24*EI);
           mLabel = `Mmax = Pa (entre charges, a=${a.toFixed(2)} m)`;
           break;
-        case 5:  // SS + triangulaire 0→q (gauche→droite)
-          M_kNm  = val*L*L/(9*Math.sqrt(3));
-          V_kN   = val*L/3;
-          defl_m = 0.01304*qN*Math.pow(L,4)/EI;
-          mLabel = "Mmax = qL²/(9√3) · x≈0.577L";
-          break;
-        case 6:  // SS + triangulaire q→0
-          M_kNm  = val*L*L/(9*Math.sqrt(3));
-          V_kN   = val*L/3;
-          defl_m = 0.01304*qN*Math.pow(L,4)/EI;
-          mLabel = "Mmax = qL²/(9√3) · x≈0.423L";
-          break;
-        case 7:  // SS + trapèze q₁→q₂
-          { const q1=val, q2v=Math.max(q2,0);
-            const RA=L/6*(2*q1+q2v), RB=L/6*(q1+2*q2v);
-            V_kN  = Math.max(RA,RB);
-            const qm=(q1+q2v)/2;
-            M_kNm = qm*L*L/8;
-            defl_m= 5*qm*1e3*Math.pow(L,4)/(384*EI);
-            mLabel= "Mmax ≈ qmoy·L²/8 (approx.)";
+        case 5: { // Bi-encastrée + P à distance a (ptr13)
+          if (L > 0 && a > 0 && a < L) {
+            const b5 = L - a;
+            const MA = val*a*b5*b5/(L*L);
+            const MB = val*a*a*b5/(L*L);
+            M_kNm = Math.max(MA, MB);
+            const RA = Pn*b5*b5*(L+2*a)/(L*L*L);
+            const RB = Pn*a*a*(L+2*b5)/(L*L*L);
+            V_kN  = Math.max(RA,RB)/1e3;
+            defl_m = Pn*Math.pow(a,3)*Math.pow(b5,3)/(3*EI*Math.pow(L,3));
           }
+          mLabel = `Mmax (appui encas.) · a=${a.toFixed(2)} m`;
+          break; }
+        case 6: { // Porte-à-faux + P en bout (a=console) (ptr14)
+          const ov6 = a;
+          M_kNm  = val * ov6;
+          V_kN   = L>0 ? val*(L+ov6)/L : 0;
+          defl_m = L>0 ? Pn*ov6*ov6*(L+ov6)/(3*EI) : 0;
+          mLabel = `Mmax = Pa (appui) · a_console=${ov6.toFixed(2)} m`;
+          break; }
+        case 7: { // 2 consoles + 2P aux bouts (a=console) (ptr15)
+          const ov7 = a;
+          M_kNm  = val * ov7;
+          V_kN   = val;
+          defl_m = L>0 ? Pn*ov7*ov7*(2*ov7+3*L)/(6*EI) : 0;
+          mLabel = `Mmax = Pa (appuis) · a_console=${ov7.toFixed(2)} m`;
+          break; }
+        case 8: // 3 travées égales + UDL (L=par travée) (ptr16)
+          M_kNm  = val*L*L/10;
+          V_kN   = val*L*3/5;
+          defl_m = qN*Math.pow(L,4)/(145*EI);
+          mLabel = "Mmax = qL²/10 (appui interm.) · L=par travée";
           break;
-        case 8:  // SS + M₀ en appui A
-          M_kNm  = val;
-          V_kN   = L>0 ? val/L : 0;
-          defl_m = M0N*L*L/(9*Math.sqrt(3)*EI);
-          mLabel = "Mmax = M₀ (en appui A)";
-          break;
-        case 9:  // SS + M₀ en appui B
-          M_kNm  = val;
-          V_kN   = L>0 ? val/L : 0;
-          defl_m = M0N*L*L/(9*Math.sqrt(3)*EI);
-          mLabel = "Mmax = M₀ (en appui B)";
+        case 9: // 2 travées + 2P au milieu (L=par travée) (ptr17)
+          M_kNm  = val*L*3/16;
+          V_kN   = val*11/16;
+          defl_m = Pn*Math.pow(L,3)/(107.3*EI);
+          mLabel = "Mmax = 3PL/16 (appui central) · L=par travée";
           break;
         case 10: // Console + UDL
           M_kNm  = val*L*L/2;
@@ -1488,8 +1486,7 @@
       const L = clampNum(elFlexSpan.value, 1, 100000) / 1000; // portée mm→m
 
       // Image cas de charge — mapping caseNum HTML → fichier ptr*.BMP (numérotation INFLEXION originale)
-      // Vérifié image par image : cases 5-9 (tri/trapèze/moments) absentes d'INFLEXION → pas d'image
-      const CASE_TO_PTR = {1:2, 2:1, 3:10, 4:3, 5:0, 6:0, 7:0, 8:0, 9:0, 10:7, 11:6, 12:11, 13:12, 14:5, 15:4, 16:9, 17:8, 18:18};
+      const CASE_TO_PTR = {1:2, 2:1, 3:10, 4:3, 5:13, 6:14, 7:15, 8:16, 9:17, 10:7, 11:6, 12:11, 13:12, 14:5, 15:4, 16:9, 17:8, 18:18};
       const ptrNum = CASE_TO_PTR[caseNum] || 0;
       if (ptrNum > 0) {
         elFlexCaseImg.src = `images/poutres/ptr${ptrNum}.png`;
@@ -1539,58 +1536,31 @@
         const targetDefl_m = clampNum(elFlexDeflInput.value, 0, 0) / 1000; // mm→m
         if (targetDefl_m <= 0) { clearResults(); return; }
 
-        if (caseNum === 7) {
-          // Cas 7 (trapèze) : q₂ fixe (entrée utilisateur), résoudre pour q₁
-          // Les résultats sont affines en q₁ → interpolation 2 points
-          const ref0 = calcFlexion18(7, L, 0, paramA, q2raw, I_m4, E_Pa);
-          const ref1 = calcFlexion18(7, L, 1, paramA, q2raw, I_m4, E_Pa);
-          const dDefl = ref1.defl_m - ref0.defl_m;
-          if (dDefl <= 0) { clearResults(); return; }
-          computedLoad = (targetDefl_m - ref0.defl_m) / dDefl;
-          if (computedLoad < 0) { clearResults(); return; }
-          const res = calcFlexion18(7, L, computedLoad, paramA, q2raw, I_m4, E_Pa);
-          M_kNm = res.M_kNm; V_kN = res.V_kN; defl_m = res.defl_m; mLabel = res.mLabel;
-        } else {
-          // Tous les autres cas : mise à l'échelle linéaire (charge unitaire)
-          const unitLoad = 1.0;
-          const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
-          if (ref.defl_m <= 0) { clearResults(); return; }
-          const scale = targetDefl_m / ref.defl_m;
-          computedLoad = unitLoad * scale;
-          M_kNm = ref.M_kNm * scale;
-          V_kN  = ref.V_kN * scale;
-          defl_m = targetDefl_m;
-          mLabel = ref.mLabel;
-        }
+        // Mise à l'échelle linéaire (charge unitaire)
+        const unitLoad = 1.0;
+        const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
+        if (ref.defl_m <= 0) { clearResults(); return; }
+        const scale = targetDefl_m / ref.defl_m;
+        computedLoad = unitLoad * scale;
+        M_kNm = ref.M_kNm * scale;
+        V_kN  = ref.V_kN * scale;
+        defl_m = targetDefl_m;
+        mLabel = ref.mLabel;
         sigma_MPa = W_m3 > 0 ? (M_kNm * 1e3) / W_m3 / 1e6 : NaN;
 
       } else {
         // Mode 3 : limite élastique → force max + flèche correspondante
-        if (caseNum === 7) {
-          // Cas 7 (trapèze) : q₂ fixe, résoudre pour q₁ tel que σ = Re
-          const ref0 = calcFlexion18(7, L, 0, paramA, q2raw, I_m4, E_Pa);
-          const ref1 = calcFlexion18(7, L, 1, paramA, q2raw, I_m4, E_Pa);
-          const dM = ref1.M_kNm - ref0.M_kNm;
-          if (dM <= 0 || W_m3 <= 0) { clearResults(); return; }
-          const target_M = material.Re * W_m3 * 1e3; // kN·m à σ = Re
-          computedLoad = (target_M - ref0.M_kNm) / dM;
-          if (computedLoad < 0) { clearResults(); return; }
-          const res = calcFlexion18(7, L, computedLoad, paramA, q2raw, I_m4, E_Pa);
-          M_kNm = res.M_kNm; V_kN = res.V_kN; defl_m = res.defl_m; mLabel = res.mLabel;
-        } else {
-          // Tous les autres cas : mise à l'échelle linéaire
-          const unitLoad = 1.0;
-          const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
-          if (ref.M_kNm <= 0) { clearResults(); return; }
-          const sigma_unit = W_m3 > 0 ? (ref.M_kNm * 1e3) / W_m3 / 1e6 : 0;
-          if (sigma_unit <= 0) { clearResults(); return; }
-          const scale = material.Re / sigma_unit;
-          computedLoad = unitLoad * scale;
-          M_kNm = ref.M_kNm * scale;
-          V_kN  = ref.V_kN * scale;
-          defl_m = ref.defl_m * scale;
-          mLabel = ref.mLabel;
-        }
+        const unitLoad = 1.0;
+        const ref = calcFlexion18(caseNum, L, unitLoad, paramA, 0, I_m4, E_Pa);
+        if (ref.M_kNm <= 0) { clearResults(); return; }
+        const sigma_unit = W_m3 > 0 ? (ref.M_kNm * 1e3) / W_m3 / 1e6 : 0;
+        if (sigma_unit <= 0) { clearResults(); return; }
+        const scale = material.Re / sigma_unit;
+        computedLoad = unitLoad * scale;
+        M_kNm = ref.M_kNm * scale;
+        V_kN  = ref.V_kN * scale;
+        defl_m = ref.defl_m * scale;
+        mLabel = ref.mLabel;
         sigma_MPa = material.Re; // exactement à la limite élastique
       }
 
@@ -1646,7 +1616,7 @@
     }
 
     // ===================================================================
-    // Algorithme d'optimisation de découpe
+    // Algorithme d'optimisation de découpe 
     // Exploration arborescente branch-and-bound : minimise les chutes.
     // Entrée : tableau de longueurs individuelles (mm), longueur barre (mm),
     //          chute acceptable (mm).
@@ -2019,7 +1989,7 @@
     function updateSectionImg() {
       const fam = elFamily.value;
       const imgName = fam;
-      elSectionImg.src = `images/sections/Sections%20avec%20Noms/${encodeURIComponent(imgName)}.png`;
+      elSectionImg.src = `images/sections/Sections%20avec%20Noms/${encodeURIComponent(imgName)}.BMP`;
       elSectionImg.style.display = "";
       elSectionImg.onerror = () => { elSectionImg.style.display = "none"; };
     }
@@ -2044,9 +2014,8 @@
     }
 
     function getLoadType(caseNum) {
-      if ([8,9].includes(caseNum)) return "m"; // moment
-      if ([1,5,6,7,10,13,14,16,18].includes(caseNum)) return "l"; // linéaire
-      return "p"; // ponctuelle
+      if ([1,8,10,13,14,16,18].includes(caseNum)) return "l"; // linéaire (UDL/q)
+      return "p"; // ponctuelle (P)
     }
 
     function fillLoadUnits(loadType) {
@@ -2079,10 +2048,7 @@
       elFlexForceResultDiv.style.display = (mode === 1) ? "none" : "";
       // Adapter le label du résultat force
       const lt = getLoadType(parseInt(elFlexCase.value) || 1);
-      if (lt === "m") {
-        elFlexForceResultLabel.textContent = "Moment calculé";
-        elFlexForceResultUnit.textContent = "kN·m";
-      } else if (lt === "l") {
+      if (lt === "l") {
         elFlexForceResultLabel.textContent = "Charge linéaire calculée";
         elFlexForceResultUnit.textContent = "kN/m";
       } else {
@@ -2094,18 +2060,19 @@
     function updateFlexInputs() {
       const c = parseInt(elFlexCase.value) || 1;
       // Champs conditionnels
-      elFlexParamADiv.style.display = [3,4,12].includes(c) ? "" : "none";
-      elFlexQ2Div.style.display     = (c === 7) ? "" : "none";
+      elFlexParamADiv.style.display = [3,4,5,6,7,12].includes(c) ? "" : "none";
+      elFlexQ2Div.style.display     = "none";
       // Unités de charge
       const lt = getLoadType(c);
       fillLoadUnits(lt);
-      if (lt === "m")      elFlexLoadLabel.textContent = "Moment M₀";
-      else if (lt === "l") elFlexLoadLabel.textContent = "Charge linéaire";
-      else                 elFlexLoadLabel.textContent = "Charge ponctuelle";
+      if (lt === "l") elFlexLoadLabel.textContent = "Charge linéaire";
+      else            elFlexLoadLabel.textContent = "Charge ponctuelle";
       // Libellé distance a (mm)
-      if (c === 4)       elFlexParamALabel.textContent = "Distance a (mm) — depuis chaque appui";
-      else if (c === 12) elFlexParamALabel.textContent = "Distance a depuis encastrement (mm)";
-      else               elFlexParamALabel.textContent = "Distance a depuis appui gauche (mm)";
+      if (c === 4)          elFlexParamALabel.textContent = "Distance a (mm) — depuis chaque appui";
+      else if (c === 5)     elFlexParamALabel.textContent = "Distance a depuis appui gauche (mm)";
+      else if (c === 6 || c === 7) elFlexParamALabel.textContent = "Longueur console a (mm)";
+      else if (c === 12)    elFlexParamALabel.textContent = "Distance a depuis encastrement (mm)";
+      else                  elFlexParamALabel.textContent = "Distance a depuis appui gauche (mm)";
       // Mettre à jour les labels du résultat force selon type de charge
       updateCalcModeUI();
     }
@@ -2209,7 +2176,7 @@
     }
 
     function init() {
-      if (DEV_MODE && devBadge) devBadge.style.display = "inline-flex";
+      if (DEV_MODE) devBadge.style.display = "inline-flex";
       if (!DEV_MODE) blockApp();
 
       restoreFromStorage();
@@ -2282,17 +2249,6 @@
     }
 
     init();
-  </script>
-
-  <!-- PWA : enregistrement du Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(reg => console.log('[PWA] Service Worker enregistré, scope:', reg.scope))
-          .catch(err => console.warn('[PWA] Échec enregistrement SW:', err));
-      });
-    }
   </script>
 </body>
 </html>
