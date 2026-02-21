@@ -520,8 +520,6 @@
         <p class="subtitle">Logiciel de calcul — Flexion · Sections · Optimisation découpe — V2.8</p>
       </div>
       <div class="badges">
-        <span id="devBadge" class="badge dev" style="display:none">DEV</span>
-        <span class="badge">Offline · 1 fichier</span>
       </div>
     </div>
 
@@ -811,13 +809,13 @@
 
             <div class="cart-actions">
               <button id="btnClearCart" class="btn-danger">Vider le panier</button>
-              <button id="btnExport" class="btn-primary">Exporter Excel</button>
+              <!-- Export Excel désactivé sur version mobile -->
+              <button id="btnExport" class="btn-primary" style="display:none">Exporter Excel</button>
               <button onclick="window.print()" class="btn-secondary">🖨 Imprimer</button>
             </div>
 
             <div class="hint">
-              Export Excel (SpreadsheetML) : s'ouvre directement dans Excel avec mise en forme et chantier.
-              Optimisation découpe minimise les chutes par exploration arborescente.
+              Optimisation découpe : minimise les chutes par exploration arborescente.
               Longueur barre et chute acceptable réglables. Détail par barre avec rendement.
             </div>
           </div>
@@ -1998,7 +1996,7 @@
     function updateSectionImg() {
       const fam = elFamily.value;
       const imgName = fam;
-      elSectionImg.src = `images/sections/Sections%20avec%20Noms/${encodeURIComponent(imgName)}.BMP`;
+      elSectionImg.src = `images/sections/Sections%20avec%20Noms/${encodeURIComponent(imgName)}.png`;
       elSectionImg.style.display = "";
       elSectionImg.onerror = () => { elSectionImg.style.display = "none"; };
     }
@@ -2185,7 +2183,7 @@
     }
 
     function init() {
-      if (DEV_MODE) devBadge.style.display = "inline-flex";
+      if (DEV_MODE && devBadge) devBadge.style.display = "inline-flex";
       if (!DEV_MODE) blockApp();
 
       restoreFromStorage();
