@@ -1,6 +1,6 @@
 // STRUCTURA PRO — Service Worker (PWA offline)
 // Incrémentez CACHE_VERSION pour forcer la mise à jour du cache
-const CACHE_VERSION = 'structura-pro-v2.7-r2';
+const CACHE_VERSION = 'structura-pro-v2.8-r1';
 
 const ASSETS_TO_CACHE = [
   './',
